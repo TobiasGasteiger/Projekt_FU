@@ -27,7 +27,7 @@ create table Timetable(
 	Subject_Description varchar(255) not null,
 	SchoolClass_Description varchar(255) not null,
 	Teacher_Name varchar(255) not null,
-	SchoolDay ENUM('Montag', 'Dienstag', 'Mitwoch', 'Donnerstag', 'Freitag') not null,
+	SchoolDay ENUM('0', '1', '2', '3', '4') not null,
 	SchoolHour int not null,
 	Foreign Key (Subject_Description) references Subject(Subject_Description),
 	Foreign Key (SchoolClass_Description) references SchoolClass(SchoolClass_Description),

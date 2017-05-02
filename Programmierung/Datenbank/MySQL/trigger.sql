@@ -6,14 +6,22 @@ delimiter //
 create trigger has_teacher_lesson after insert on EventwithTeacher for each row
 	begin
 		declare guthaben int;
-		declare tname varchar(255);
-		set guthaben = 1;
-		set tname = New.Teacher_Name;
-		if tname = any(select Teacher_Name as tn from EventwithTeacher as et natural join Event as e natural join 
-			Timetable as tt where e.Begin_Hour <= tt.SchoolHour and e.End_Hour >= tt.SchoolHour and tt.SchoolDay = weekday(e.Date))
-			then set guthaben = 0;
-		end if;
-		update Teacher set Credit = Credit + guthaben where Teacher.Teacher_Name = tname;
+		declare teacherName varchar(255);
+		declare nowHour int;
+		declare hours int;
+		set teacherName = New.Teacher_Name;
+		set nowHour = (select Begin_Hour from Event where Event_ID = New.Event_ID);
+		set hours = (select (End_Hour - Begin_Hour + 1) from Event where Event_ID = New.Event_ID);
+		set guthaben = hours;
+		while hours >= 0 do 
+			if teacherName = any(select Teacher_Name as tn from EventwithTeacher as et natural join Event as e natural join 
+			Timetable as tt where tt.SchoolHour = nowHour and tt.SchoolDay = weekday(e.Date))
+			then set guthaben = guthaben - 1;
+			end if;
+			set hours = hours - 1;
+			set nowHour = nowHour + 1;
+		end while;
+		update Teacher set Credit = Credit + guthaben where Teacher.Teacher_Name = teacherName;
 	end;//
 delimiter ;
 

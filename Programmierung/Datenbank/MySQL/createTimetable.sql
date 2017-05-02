@@ -3,12 +3,12 @@ create table SchoolHour(
 	Begin_Hour time not null,
 	End_Hour time not null,
 	Primary Key (Hour)
-);
+) ENGINE = InnoDB;
 
 create table Subject (
 	Subject_Description varchar(255) not null,
 	Primary Key(Subject_Description)
-);
+) ENGINE = InnoDB;
 
 -- Der Lehrer besitzt einen Namen, in welchem der Vor und Nachname abgespeichert werden
 create table Teacher (
@@ -16,12 +16,18 @@ create table Teacher (
 	Password varchar(255),
 	Credit int not null default 0,
 	Primary Key(Teacher_Name)
-);
+) ENGINE = InnoDB;
 
 create table SchoolClass (
 	SchoolClass_Description varchar(255) not null,
 	Primary Key(SchoolClass_Description)
-);
+) ENGINE = InnoDB;
+
+create table SchoolDay(
+	Day int not null,
+	Day_Name varchar(10) not null,
+	PRIMARY key (Day)	
+) ENGINE = InnoDB;
 
 create table Timetable(
 	Subject_Description varchar(255) not null,
@@ -35,13 +41,7 @@ create table Timetable(
 	Foreign Key (Teacher_Name) references Teacher(Teacher_Name),
 	Foreign Key (SchoolHour) references SchoolHour(Hour),
 	Primary Key (SchoolDay, SchoolHour, Teacher_Name) -- Um zu verhindern, dass ein Lehrer zugleich in mehreren Klassen arbeiten kann
-);
-
-create table SchoolDay(
-	Day int not null,
-	Day_Name varchar(10) not null,
-	PRIMARY key (Day)	
-);
+) ENGINE = InnoDB;
 
 create table TeachedBy(
 	Subject_Description varchar(255) not null,
@@ -49,7 +49,7 @@ create table TeachedBy(
 	Foreign Key (Subject_Description) references Subject(Subject_Description),
 	Foreign Key (Teacher_Name) references Teacher(Teacher_Name),
 	Primary Key (Subject_Description, Teacher_Name)
-);
+) ENGINE = InnoDB;
 
 create table Event(
 	Event_ID int not null auto_increment,
@@ -62,7 +62,7 @@ create table Event(
 	Foreign Key (Begin_Hour) references SchoolHour(Hour),
 	Foreign Key (End_Hour) references SchoolHour(Hour),
 	Primary Key (Event_ID)
-);
+) ENGINE = InnoDB;
 
 create table EventwithTeacher(
 	Event_ID int not null,
@@ -70,7 +70,7 @@ create table EventwithTeacher(
 	Foreign Key (Teacher_Name) references Teacher(Teacher_Name),
 	Foreign Key (Event_ID) references Event(Event_ID),
 	Primary Key (Event_ID, Teacher_Name)
-);
+) ENGINE = InnoDB;
 
 create table EventwithSchoolClass(
 	Event_ID int not null,
@@ -78,7 +78,7 @@ create table EventwithSchoolClass(
 	Foreign Key (SchoolClass_Description) references SchoolClass(SchoolClass_Description),
 	Foreign Key (Event_ID) references Event(Event_ID),
 	Primary Key (Event_ID, SchoolClass_Description)
-);
+) ENGINE = InnoDB;
 
 
 

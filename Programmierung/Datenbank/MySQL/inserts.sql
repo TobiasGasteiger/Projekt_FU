@@ -14,12 +14,12 @@ insert into SchoolDay values(2, 'Mittwoch');
 insert into SchoolDay values(3, 'Donnerstag');
 insert into SchoolDay values(4, 'Freitag');
 
-insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Deutsch', '5BT', 'Brunner Ulrike', 0, 1);
-insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Deutsch', '5BT', 'Brunner Ulrike', 0, 2);
-insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Englisch', '5BT', 'Egger Alexandra', 0, 3);
-insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Informatik', '5BT', 'Plank Josef', 0, 4);
-insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Informatik', '5BT', 'Plank Josef', 0, 5);
-insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Italienisch', '5BT', 'Russo Anni', 0, 6);
+insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Deutsch', '5BT', 'Abrim Elda', 1, 1);
+insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Deutsch', '5BT', 'Abrim Elda', 1, 2);
+insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Englisch', '5BT', 'Alper Thomas', 1, 3);
+insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Informatik', '5BT', 'Amort Erich', 1, 4);
+insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Informatik', '5BT', 'Amort Erich', 1, 5);
+insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Italienisch', '5BT', 'Amplatz Werner', 1, 6);
 
 insert into TeachedBy (Subject_Description, Teacher_Name) values ('Deutsch','Brunner Ulrike');
 insert into TeachedBy (Subject_Description, Teacher_Name) values ('Englisch','Egger Alexandra');
@@ -28,10 +28,9 @@ insert into TeachedBy (Subject_Description, Teacher_Name) values ('Italienisch',
 
 insert into Event (Titel, Description, Date, Person, Begin_Hour, End_Hour) values ('Kochen', 'Kochen mit Lebensmittel', '2017-04-28', 'Koch', 1, 2);
 insert into Event (Titel, Description, Date, Person, Begin_Hour, End_Hour) values ('Kochen 2', 'Kochen mit nichts', '2017-04-29', 'Koch 2', 1, 2);
+insert into Event (Titel, Description, Date, Person, Begin_Hour, End_Hour) values ('Kochen 3', 'Kochen mit rafl', '2017-04-03', 'rafl', 2, 4);
+
+insert into EventwithTeacher values (5, 'Abrim Elda');
+insert into EventwithTeacher values (5, 'Amplatz Werner');
 
 
-insert into EventwithTeacher values (3, 'Brunner Ulrike');
-insert into EventwithTeacher values (3, 'Plank Josef');
-
-3, 6 --> 6-3 +1 = 4
-1, 7 --> 7-1 +1 = 7

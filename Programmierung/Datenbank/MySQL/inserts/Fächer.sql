@@ -1,0 +1,25 @@
+INSERT INTO Subject (Subject_Description) Values ("Mathematik");
+INSERT INTO Subject (Subject_Description) Values ("Informatik");
+INSERT INTO Subject (Subject_Description) Values ("Technologie");
+INSERT INTO Subject (Subject_Description) Values ("Systeme und Netzwerke");
+INSERT INTO Subject (Subject_Description) Values ("Projektmanagement");
+INSERT INTO Subject (Subject_Description) Values ("Telekomunikation");
+INSERT INTO Subject (Subject_Description) Values ("Technisch Zeichnen");
+INSERT INTO Subject (Subject_Description) Values ("Angewandte Technologie");
+INSERT INTO Subject (Subject_Description) Values ("Deutsch");
+INSERT INTO Subject (Subject_Description) Values ("Italienisch");
+INSERT INTO Subject (Subject_Description) Values ("Englisch");
+INSERT INTO Subject (Subject_Description) Values ("Latein");
+INSERT INTO Subject (Subject_Description) Values ("Französisch");
+INSERT INTO Subject (Subject_Description) Values ("Russisch");
+INSERT INTO Subject (Subject_Description) Values ("Biologie");
+INSERT INTO Subject (Subject_Description) Values ("Chemie");
+INSERT INTO Subject (Subject_Description) Values ("Physik");
+INSERT INTO Subject (Subject_Description) Values ("Philosophie");
+INSERT INTO Subject (Subject_Description) Values ("Religion");
+INSERT INTO Subject (Subject_Description) Values ("Geschichte");
+INSERT INTO Subject (Subject_Description) Values ("Wirtschaftskunde");
+INSERT INTO Subject (Subject_Description) Values ("Bewegung und Sport");
+INSERT INTO Subject (Subject_Description) Values ("Kunst");
+INSERT INTO Subject (Subject_Description) Values ("Integration");
+

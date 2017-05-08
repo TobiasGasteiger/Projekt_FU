@@ -55,8 +55,8 @@ create table Event(
 	Event_ID int not null auto_increment,
 	Titel varchar(255) not null,
 	Description text,
-	Date date not null, --
-	Person varchar(255) not null,
+	Date date not null,
+	Person varchar(255),
 	Begin_Hour int not null,
 	End_Hour int not null,
 	Foreign Key (Begin_Hour) references SchoolHour(Hour),
@@ -80,5 +80,13 @@ create table EventwithSchoolClass(
 	Primary Key (Event_ID, SchoolClass_Description)
 ) ENGINE = InnoDB;
 
-
+create table TeacherGotCredit(
+	TeacherGotCredit_ID int not null auto_increment,
+	Event_ID int not null,
+	Teacher_Name varchar(255) not null,
+	CreditChange int not null,
+	Foreign Key (Teacher_Name) references Teacher(Teacher_Name),
+	Foreign Key (Event_ID) references Event(Event_ID),
+	Primary Key (TeacherGotCredit_ID)
+) ENGINE = InnoDB;
 

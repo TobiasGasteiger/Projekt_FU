@@ -1,0 +1,23 @@
+		.tt-query {
+			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+		}
+		.tt-hint {
+			color: #999999;
+		}
+		.tt-dropdown-menu {
+			background-color: #FFFFFF;
+			box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+			width: auto;
+		}
+		.tt-suggestion {
+			font-size: 20px;
+			line-height: 24px;
+			padding: 10px 20px;
+		}
+		.tt-suggestion.tt-is-under-cursor {
+			background-color: #0097CF;
+			color: #FFFFFF;
+		}
+		.tt-suggestion p {
+			margin: 0;
+		}

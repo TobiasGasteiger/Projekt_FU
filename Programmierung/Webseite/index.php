@@ -1,5 +1,30 @@
+<?php
+	include("db.php");
+	
+	if(isset($_POST["btnHinzufuegen"])){
+	global $db;
+	$titel = $_POST["titel"];
+	$beschreibung = $_POST["beschreibung"];
+	$datum = $_POST["datum"];
+	$zusatzpersonen = $_POST["zusatzpersonen"];
+	$anfangsstunde = $_POST["anfangsstunde"];
+	$endstunde = $_POST["endstunde"];
+
+	
+	$sql= $db->prepare("insert into Event(Titel,Description,Date,Person,Begin_Hour,End_Hour) VALUES(?,?,?,?,?,?)");
+	$sql->bind_param("ssssii", $titel, $beschreibung, $datum, $zusatzpersonen, $anfangsstunde, $endstunde);
+	
+	if($sql->execute()){
+		echo "<script type='text/javascript'>alert('Daten hinzugefügt!');</script>";
+	}else{
+		echo "<script type='text/javascript'>alert(Fehler - Daten konnten nicht hinzugefügt werden');</script>";
+	}
+
+}
+
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
@@ -17,6 +42,14 @@
 			$('input.typeahead1').typeahead({
 				name: 'klassesearch',
 				remote:'php/updateKlassen/search.php?key=%QUERY',
+				limit : 10
+			});
+		});
+		
+		$(document).ready(function(){
+			$('input.typeahead2').typeahead({
+				name: 'lehrerdel',
+				remote:'php/updateLehrer/search.php?key=%QUERY',
 				limit : 10
 			});
 		});
@@ -99,27 +132,54 @@
   
    <!-- Modal Unten -->
   <div id="modal1" class="modal bottom-sheet">
-    <div class="modal-content">
-      <h4>Hinzufügen</h4>
-      <form class="col s12">
-      <div class="row">
-        <div class="input-field col s6">
-          <input id="first_name" type="text" class="validate">
-          <label for="first_name">Fach</label>
-        </div>
-		
-		<div class="input-field col s6">
-          <input id="first_name" type="text" class="validate">
-          <label for="first_name">Lehrer</label>
-        </div>
-		
-	  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-      </div>
-	  </form>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
-    </div>
+	<form action="" method="post">
+		<div class="modal-content">
+		  <h4>Hinzufügen</h4>
+		  <div class="row">
+			<div class="input-field col s6">
+			  <input id="first_name" type="text" name="titel" class="validate" required>
+			  <label for="first_name">Titel *</label>
+			</div>
+			
+			<div class="input-field col s6">
+			  <input id="first_name" type="text" name="beschreibung" class="validate">
+			  <label for="first_name">Beschreibung</label>
+			</div>
+			
+			<div class="input-field col s6">
+			  <input type="date" class="datepicker" name="datum" required>
+			  <label for="first_name">Datum *</label>
+			</div>
+			
+			<div class="input-field col s3">
+			  <input type="text" name="klassesearch" class="typeahead2 tt-query" autocomplete="off" spellcheck="false" placeholder="Lehrer*" required>
+			</div>
+			
+			<div class="input-field col s3">
+			  <input type="submit" id="first_name" type="text" name="lehrer" class="modal-action modal-close waves-effect waves-green btn" value="Hinzufügen">
+			</div>
+			
+			<div class="input-field col s6">
+			  <input id="first_name" type="text" name="zusatzpersonen" class="validate">
+			  <label for="first_name">Zusatzpersonen</label>
+			</div>
+			
+			<div class="input-field col s6">
+			  <input id="first_name" type="text" name="anfangsstunde" class="validate" required>
+			  <label for="first_name">Anfangsstunde *</label>
+			</div>
+			
+			<div class="input-field col s6">
+			  <input id="first_name" type="text" name="endstunde" class="validate" required>
+			  <label for="first_name">Endstunde *</label>
+			</div>
+		  </div>
+		</div>
+		<div class="modal-footer">	
+			<input type="submit" class="modal-action waves-effect waves-light btn-flat" name="btnHinzufuegen" value="OK"></input>
+			<input type="submit" class="modal-action waves-effect waves-light btn-flat modal-close" name="btnHinzufuegen" value="Abbrechen"></input>
+		</div>
+	</form>
   </div>
           
 	
@@ -221,6 +281,24 @@
     $('.tooltipped').tooltip({delay: 50});
   });
       
+	$('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15,// Creates a dropdown of 15 years to control year
+	format: 'yyyy-mm-dd',
+	labelMonthNext: 'Nächster Monat',
+	labelMonthPrev: 'Letzter Monat',
+	labelMonthSelect: 'Monat auswählen',
+	labelYearSelect: 'Jahr auswählen',
+	monthsFull: [ 'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember' ],
+	monthsShort: [ 'Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez' ],
+	weekdaysFull: [ 'Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag' ],
+	weekdaysShort: [ 'Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam' ],
+	weekdaysLetter: [ 'S', 'M', 'D', 'M', 'D', 'F', 'S' ],
+	today: 'Heute',
+	clear: 'Löschen',
+	close: 'OK'
+  });
+       
   
   </script>
 

@@ -1,10 +1,5 @@
 <?php
-
-define('DB_SERVER', 'linuxserver');
-define('DB_USERNAME', 'ststeraf');
-define('DB_PASSWORD', 'mypass');
-define('DB_DATABASE', 'projekt_fu');
-$db = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+include("db.php");
 
 //KLASSE
 
@@ -13,11 +8,12 @@ if(isset($_POST["klassehinzufuegen"])){
 	$klasseadd = $_POST["klasseadd"];
 
 	
-	$sql="insert into SchoolClass(SchoolClass_Description) VALUES('$klasseadd')";
-	if(mysqli_query($db,$sql)){
+	$sql= $db->prepare("insert into SchoolClass(SchoolClass_Description) VALUES(?)");
+	$sql->bind_param("s", $klasseadd);
+	
+	if($sql->execute()){
 		echo "<script type='text/javascript'>alert('Klasse hinzugefügt!');</script>";
 	}else{
-		print_r($db->error);
 		echo "<script type='text/javascript'>alert(Fehler - Klasse konnte nicht hinzugefügt werden');</script>";
 	}
 
@@ -42,10 +38,11 @@ if(isset($_POST["klassehinzufuegen"])){
 if(isset($_POST["lehrerhinzufuegen"])){
 	global $db;
 	$lehreradd = $_POST["lehreradd"];
-
 	
-	$sql="insert into Teacher(Teacher_Name) VALUES('$lehreradd')";
-	if(mysqli_query($db,$sql)){
+	$sql= $db->prepare("insert into Teacher(Teacher_Name) VALUES(?)");
+	$sql->bind_param("s", $lehreradd);
+
+	if($sql->execute()){
 		echo "<script type='text/javascript'>alert('Lehrer hinzugefügt!');</script>";
 	}else{
 		print_r($db->error);
@@ -74,9 +71,10 @@ if(isset($_POST["fachhinzufuegen"])){
 	global $db;
 	$fachadd = $_POST["fachadd"];
 
-	
-	$sql="insert into Subject(Subject_Description) VALUES('$fachadd')";
-	if(mysqli_query($db,$sql)){
+	$sql= $db->prepare("insert into Subject(Subject_Description) VALUES(?)");
+	$sql->bind_param("s", $fachadd);
+
+	if($sql->execute()){
 		echo "<script type='text/javascript'>alert('Fach hinzugefügt!');</script>";
 	}else{
 		print_r($db->error);
@@ -102,7 +100,7 @@ if(isset($_POST["fachhinzufuegen"])){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>

@@ -1,14 +1,10 @@
 <?php
-define('DB_SERVER', 'linuxserver');
-define('DB_USERNAME', 'ststeraf');
-define('DB_PASSWORD', 'mypass');
-define('DB_DATABASE', 'projekt_fu');
-$db = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+include("db.php");
 ?>
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
@@ -112,16 +108,18 @@ $db = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
               <span class="card-title">
 				  <?php
 					global $db;
-					$lehrer = $_POST['typeahead'];
-					echo "<center>";
-					$erg= $db->query("select * from Teacher where Teacher_Name LIKE '$lehrer'");
-					echo "<script>document.getElementById('lehrer').value</script>";
-						
-					while($zeile= $erg->fetch_object()){
-						echo "<pre>";
-						print_r($zeile->Teacher_Name); echo "<br>";
-						echo "</pre>";		
-					}	
+					if(isset($_POST['typeahead'])) {
+						$lehrer = $_POST['typeahead'];
+						echo "<center>";
+						$erg= $db->query("select * from Teacher where Teacher_Name LIKE '$lehrer'");
+						echo "<script>document.getElementById('lehrer').value</script>";
+							
+						while($zeile= $erg->fetch_object()){
+							echo "<pre>";
+							print_r($zeile->Teacher_Name); echo "<br>";
+							echo "</pre>";		
+						}
+					}						
 				?>  
 			 </span>
               <p>Eventuelle Informationen über den Lehrer</p>
@@ -130,49 +128,48 @@ $db = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
         </div>
 		<center><h4>FÜ Stunden:</h4></center>
 		
-		<div class="col s12 m6">
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">Kochen</span>
-              <p>am 14.03.2017 in der Klasse 4BT</p>
-            </div>
-          </div>
-        </div>
+		<?php
+			global $db;
+			if(isset($_POST['typeahead'])) {
+				$lehrer = $_POST['typeahead'];
+				$events= $db->query("select * from EventwithTeacher natural join Event natural join EventwithSchoolClass where Teacher_Name LIKE '$lehrer'");
+				
+				if(!$events)
+					die($db->error);
+				
+				while($zeile= $events->fetch_object()){
+					echo"
+					<div class='col s12 m6'>
+						<div class='card'>
+							<div class='card-content'>
+								<span class='card-title'>$zeile->Titel</span>
+								<p>am $zeile->Date in der Klasse $zeile->SchoolClass_Description.</p>
+							</div>
+						</div>
+					</div>";
+						
+				}			
+			}
 		
-		<div class="col s12 m6">
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">Singen</span>
-              <p>am 04.02.2017 in der Klasse 3AT</p>
-            </div>
-          </div>
-        </div>
+			if(isset($_POST['typeahead'])) {
+				$lehrer = $_POST['typeahead'];
+				$credit= $db->query("select * from Teacher where Teacher_Name LIKE '$lehrer'");
+				$c = $credit->fetch_object();
+				echo "
+				<br><br><br><br><br><br><br>
+				<div class='col s12 m3'>
+					<div class='card'>
+						<div class='card-content'>
+							<span class='card-title'>
+								<b>Guthaben: $c->Credit</b>
+							</span>
+						</div>
+					</div>
+				</div>";
+			}		
+		?>	
 		
-		<div class="col s12 m6">
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">Singen</span>
-              <p>am 04.02.2017 in der Klasse 3AT</p>
-            </div>
-          </div>
-        </div>
 		
-		<div class="col s12 m6">
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">Singen</span>
-              <p>am 04.02.2017 in der Klasse 3AT</p>
-            </div>
-          </div>
-        </div>
-		
-		<div class="col s12 m3">
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title"><b>Guthaben: +4</b></span>
-            </div>
-          </div>
-        </div>
     </div>
   
   

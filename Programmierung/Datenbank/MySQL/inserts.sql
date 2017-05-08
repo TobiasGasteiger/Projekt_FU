@@ -34,4 +34,16 @@ insert into Event (Titel, Description, Date, Person, Begin_Hour, End_Hour) value
 insert into EventwithTeacher values (1, 'Abrim Elda');
 insert into EventwithTeacher values (1, 'Amplatz Werner');
 
+insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Deutsch', '1CT', 'Magnus Claudia', 2, 1);
+insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Deutsch', '1CT', 'Magnus Claudia', 2, 2);
+insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Englisch', '1CT', 'Mairhofer Robert', 2, 3);
+insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Informatik', '1CT', 'Matte Hans', 2, 4);
+insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Informatik', '1CT', 'Matte Hans', 2, 5);
+insert into Timetable (Subject_Description, SchoolClass_Description, Teacher_Name, SchoolDay, SchoolHour) values ('Italienisch', '1CT', 'Molling Anna', 2, 6);
 
+insert into Event (Titel, Description, Date, Person, Begin_Hour, End_Hour) values ('Malen mit 1CT', 'Malen mit Lebensmittel', '2017-05-10', 'Koch', 1, 4);
+
+insert into EventwithTeacher values (3, 'Magnus Claudia');
+insert into EventwithTeacher values (3, 'Molling Anna');
+
+isert into EventwithSchoolClasse values (3, "1CT")

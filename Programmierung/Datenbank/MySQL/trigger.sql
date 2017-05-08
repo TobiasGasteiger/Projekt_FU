@@ -27,6 +27,18 @@ delimiter ;
 
 Wenn FÜ Stunde eingetragen ist -> ist Prof. der Unterricht haben müsste anwesend oder nicht -> Count -1 oder 0
 
+Alle Lehrer finden, welche während dieser Zeit(Stunden, Wochentag) in der Klasse unterricht hätten
+--select weekday(Date) from Event natural join EventwithSchoolClass where Event_ID = 2;
+select Teacher_Name from Timetable where SchoolDay = (select weekday(Date) from Event natural join EventwithSchoolClass where Event_ID = 2)
+	and SchoolHour between (select Begin_Hour from Event natural join EventwithSchoolClass where Event_ID = 2)
+				   and (select End_Hour from Event natural join EventwithSchoolClass where Event_ID = 2)
+Alle Lehrer finden welche im FÜ enthalten sind
+select Teacher_Name from Event natural join EventwithTeacher where Event_ID = 2;
+Ist ein Lehrer nicht in FÜ und müsste zu einer gewissen Stunde unterrichten -1
+Ansonsten nichts ändern
+
+
+
 delimiter //
 create trigger is_teacher_present after insert on EventwithSchoolClass for each row
 	begin

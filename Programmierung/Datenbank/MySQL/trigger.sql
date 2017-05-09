@@ -1,7 +1,6 @@
 -- TRIGGER:
 
--- Wenn Prof. FÜ eingetragen ist -> Hat Prof. da Unterricht oder nicht -> Count 0 oder +1
-
+-- TRIGGER 1: Guthaben aktualisieren, wenn der Lehrer eine Stunde hat oder nicht
 delimiter //
 create trigger has_teacher_lesson after insert on EventwithTeacher for each row
 	begin
@@ -26,10 +25,7 @@ create trigger has_teacher_lesson after insert on EventwithTeacher for each row
 	end;//
 delimiter ;
 
-
-
--- FÜ Stunde eingetragen ist -> ist Prof. der Unterricht haben müsste anwesend oder nicht -> Count -1 oder 0
-
+-- TRIGGER 2: Guthaben aktualisieren, wenn der Lehrer Unterricht haben müsste und anwesend oder nicht
 DELIMITER $$
 create trigger is_teacher_present after insert on EventwithSchoolClass for each row
 	begin
@@ -70,3 +66,48 @@ create trigger is_teacher_present after insert on EventwithSchoolClass for each 
 END;$$
 DELIMITER ;
 	
+-- TRIGGER 3: Wenn Eevent gelöscht wird Guthaben zuruücksetzen und Werte aus TeacherGotCreadit löschen
+DELIMITER $$
+create trigger is_event_deleted before delete on Event for each row
+	BLOCK1: BEGIN
+		DECLARE teacher_finished INTEGER DEFAULT 0;
+		DECLARE teacherName varchar(255);
+		DECLARE credit_Change INTEGER;
+		-- Cursor für alle Lehrer wo sich der Credit durch das Event gändert hat
+		DEClARE teacher_cursor CURSOR FOR
+			select Teacher_Name from TeacherGotCredit where Event_ID = old.Event_ID;
+		-- declare NOT FOUND handler
+		DECLARE CONTINUE HANDLER 
+			FOR NOT FOUND SET teacher_finished = 1;
+			
+		OPEN teacher_cursor;
+			get_teacher: LOOP
+				FETCH teacher_cursor INTO teacherName;
+				IF teacher_finished = 1 THEN 
+					LEAVE get_teacher;
+				END IF;
+				
+				BLOCK2: BEGIN
+					DECLARE teacherCreditChange_finished INTEGER DEFAULT 0;
+					-- Cursor für alle Guthabeneinträge welche eingetragen wurden
+					DEClARE teacherCreditChange_cursor CURSOR FOR
+						select CreditChange from TeacherGotCredit where Event_ID = old.Event_ID and Teacher_Name = teacherName;
+					-- declare NOT FOUND handler
+					DECLARE CONTINUE HANDLER 
+						FOR NOT FOUND SET teacherCreditChange_finished = 1;
+					
+					OPEN teacherCreditChange_cursor;
+					get_CreditChange: LOOP
+						FETCH teacherCreditChange_cursor INTO credit_Change;
+						IF teacherCreditChange_finished = 1 THEN 
+							LEAVE get_CreditChange;
+						END IF;
+						update Teacher set Credit = Credit - credit_Change where Teacher_Name = teacherName;
+					END LOOP get_CreditChange;
+					CLOSE teacherCreditChange_cursor;
+				END BLOCK2;
+			END LOOP get_teacher;
+		CLOSE teacher_cursor;
+		delete from TeacherGotCredit where Event_ID = old.Event_ID;
+	END BLOCK1; $$
+DELIMITER ;

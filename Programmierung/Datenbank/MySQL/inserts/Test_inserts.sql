@@ -19,13 +19,25 @@ insert into Event(Titel, Description, Date, Person, Begin_Hour, End_Hour) values
 insert into Event(Titel, Description, Date, Person, Begin_Hour, End_Hour) values ('Kochen 2', 'Kochen mit Lebensmittel 2', '2017-05-16', 'Koch', 3, 6);
 
 -- EVENT WITH TEACHER
-insert into EventwithTeacher values (3, 'Abrim Elda');
-insert into EventwithTeacher values (3, 'Amort Erich');
+insert into EventwithTeacher values (14, 'Abrim Elda');
+insert into EventwithTeacher values (14, 'Amort Erich');
 
-insert into EventwithTeacher values (4, 'Abrim Elda');
-insert into EventwithTeacher values (4, 'Amplatz Werner');
+insert into EventwithTeacher values (15, 'Abrim Elda');
+insert into EventwithTeacher values (15, 'Amplatz Werner');
 
 -- EVENT WITH CLASS
-insert into EventwithSchoolClass values (3, '5B');
-insert into EventwithSchoolClass values (4, '5B');
+insert into EventwithSchoolClass values (14, '5B');
+insert into EventwithSchoolClass values (15, '5B');
 
+-- SELECTS
+select * from Timetable;
+select * from Event;
+select * from EventwithSchoolClass;
+select * from EventwithTeacher;
+select * from Teacher;
+select * from TeacherGotCredit;
+
+-- CLEAN DB
+update Teacher set Credit = 0 where Teacher_Name != "89899898";
+delete from Event where Event_ID != 1000000000;
+	

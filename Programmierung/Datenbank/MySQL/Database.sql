@@ -68,7 +68,7 @@ create table EventwithTeacher(
 	Event_ID int not null,
 	Teacher_Name varchar(255) not null,
 	Foreign Key (Teacher_Name) references Teacher(Teacher_Name),
-	Foreign Key (Event_ID) references Event(Event_ID),
+	Foreign Key (Event_ID) references Event(Event_ID) ON DELETE CASCADE,
 	Primary Key (Event_ID, Teacher_Name)
 ) ENGINE = InnoDB;
 
@@ -76,7 +76,7 @@ create table EventwithSchoolClass(
 	Event_ID int not null,
 	SchoolClass_Description varchar(255) not null,
 	Foreign Key (SchoolClass_Description) references SchoolClass(SchoolClass_Description),
-	Foreign Key (Event_ID) references Event(Event_ID),
+	Foreign Key (Event_ID) references Event(Event_ID) ON DELETE CASCADE,
 	Primary Key (Event_ID, SchoolClass_Description)
 ) ENGINE = InnoDB;
 

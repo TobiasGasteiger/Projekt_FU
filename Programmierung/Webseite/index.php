@@ -327,8 +327,7 @@
 						$fr++;
 					}
 				}				
-			}			
-			
+			}
 		
 		$stunde = 1;	
 		
@@ -340,30 +339,54 @@
 			global $mittwoch;
 			global $donnerstag;
 			global $freitag;
-			
-			addStunde($montag, $stunde);
-			addStunde($dienstag, $stunde);
-			addStunde($mittwoch, $stunde);
-			addStunde($donnerstag, $stunde);
-			addStunde($freitag, $stunde);
+						
+			addStunde($montag, $stunde, getEventNumbers($montag));
+			addStunde($dienstag, $stunde, getEventNumbers($dienstag));
+			addStunde($mittwoch, $stunde, getEventNumbers($mittwoch));
+			addStunde($donnerstag, $stunde, getEventNumbers($donnerstag));
+			addStunde($freitag, $stunde, getEventNumbers($freitag));
 			
 			echo"</tr>";
 			$stunde++;
 		}
 		
-		function addStunde($tag, $stunde) {
-			if(count($tag) > 0) {
+		function getEventNumbers($tag) {
+			$eventsProTag = count($tag);
+			$j = 0;
+			$stundenFU = array();
+			while($j < $eventsProTag) {
+				$array = $tag[$j];
+				$insertHour = 1;
+				while($insertHour <= 6) {
+					if($insertHour >= $array['Begin_Hour'] && $insertHour <= $array['End_Hour']) {
+						$stundenFU[] = $insertHour;
+						//echo"$insertHour";
+					}	
+					$insertHour++;
+				}
+				$j++;	
+				//print_r($stundenFU);				
+			}
+			return $stundenFU;
+		}
+		
+		function addStunde($tag, $stunde, $eventsArray) {		
+			$eventsProTag = count($tag);
+			print_r($eventsArray);
+			echo"<br><br><br><br>";
+			if($eventsProTag > 0) {
 				$i = 0;
-				while($i < count($tag)) {
+				while($i < $eventsProTag) {
 					$array = $tag[$i];
-					if($array['Begin_Hour'] <= $stunde && $array['End_Hour'] >= $stunde) {
-						echo "<td><a href='#modalOverview'>$array[Titel]</a></td>";
+					if($array['Begin_Hour'] <= $stunde && $array['End_Hour'] >= $stunde && in_array($stunde, $eventsArray)) {
+						echo "<td><a href='#modalOverview'>$array[Titel] stunde:$stunde</a></td>";
 						break;
 					} else {
 						echo"<td><a href='#modal1'>Add FÜ</a></td>";
 					}
 					$i++;
 				}	
+				
 			} else {
 				echo"<td><a href='#modal1'>Add FÜ</a></td>";
 			}

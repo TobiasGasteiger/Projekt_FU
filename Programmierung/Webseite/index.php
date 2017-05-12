@@ -360,33 +360,39 @@
 				while($insertHour <= 6) {
 					if($insertHour >= $array['Begin_Hour'] && $insertHour <= $array['End_Hour']) {
 						$stundenFU[] = $insertHour;
-						//echo"$insertHour";
 					}	
 					$insertHour++;
 				}
-				$j++;	
-				//print_r($stundenFU);				
+				$j++;			
 			}
 			return $stundenFU;
 		}
 		
 		function addStunde($tag, $stunde, $eventsArray) {		
 			$eventsProTag = count($tag);
-			print_r($eventsArray);
-			echo"<br><br><br><br>";
 			if($eventsProTag > 0) {
 				$i = 0;
+				$stundeHatEintrag = array(
+					'1' => '0',
+					'2' => '0',
+					'3' => '0',
+					'4' => '0',
+					'5' => '0',
+					'6' => '0',				
+				);
 				while($i < $eventsProTag) {
 					$array = $tag[$i];
-					if($array['Begin_Hour'] <= $stunde && $array['End_Hour'] >= $stunde && in_array($stunde, $eventsArray)) {
-						echo "<td><a href='#modalOverview'>$array[Titel] stunde:$stunde</a></td>";
-						break;
-					} else {
-						echo"<td><a href='#modal1'>Add FÜ</a></td>";
+					$begHour = $array['Begin_Hour'];
+					$endHour = $array['End_Hour'];
+					if($array['Begin_Hour'] <= $stunde && $array['End_Hour'] >= $stunde && in_array($stunde, $eventsArray) && $stundeHatEintrag[$stunde] == '0') {
+						$stundeHatEintrag[$stunde] = '1';
+						echo "<td><a href='index.php?Titel=$array[Titel]'><a href='#modalOverview'><b>$array[Titel]&nbsp;</b>am $array[Date]</a></a></td>";
+					} else if(in_array($stunde, $eventsArray)){ } else if($stundeHatEintrag[$stunde] == '0'){
+						echo"<td><a href='#modal1'>Add FÜÜÜ</a></td>";
+						$stundeHatEintrag[$stunde] = '1';
 					}
 					$i++;
-				}	
-				
+				} 				
 			} else {
 				echo"<td><a href='#modal1'>Add FÜ</a></td>";
 			}

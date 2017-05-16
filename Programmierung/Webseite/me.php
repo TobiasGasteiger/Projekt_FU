@@ -1,8 +1,19 @@
 <?php
 include("db.php");
+session_start();
+$name = $_SESSION['username'];
+
+	if($name == '')
+	header('Location: index.php');
+
+
+  if (isset($_GET['l'])) {
+    session_destroy();
+	header('Location: index.php');
+	
+	
+  }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -16,123 +27,48 @@ include("db.php");
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="css/liveSearch.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  
-      <script>
-		$(document).ready(function(){
-			$('input.typeahead').typeahead({
-				name: 'typeahead',
-				remote:'php/searchLehrer/search.php?key=%QUERY',
-				limit : 10
-			});
-		});
-    </script>
-	</head>
+
+</head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="index.html" class="brand-logo">FÜ Verwaltung</a>
       <ul class="right hide-on-med-and-down">
         <li><a href="add.php">Daten hinzufügen</a></li>
-		<li><a href="lehrer.html">Lehrer Übersicht</a></li>
-		<li><a href="#">Abmelden</a></li>
+		<li><a href="lehrer.php">Lehrer Übersicht</a></li>
+		<li><a href="me.php">Meine Daten</a></li>
+		<li><a href="me.php?l=true">Abmelden</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
         <li><a href="add.php">Daten hinzufügen</a></li>
-		<li><a href="lehrer.html">Lehrer Übersicht</a></li>
-		<li><a href="#">Abmelden</a></li>
+		<li><a href="lehrer.php">Lehrer Übersicht</a></li>
+		<li><a href="me.php">Meine Daten</a></li>
+		<li><a href="me.php?l=true">Abmelden</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
   </nav>
   
   
-  <div class="container">
-  <!-- Modal login -->
-  <div id="loginModal" class="modal">
-    <div class="modal-content">
-      <h4><center>Login</center></h4>
-		  <div class="section"></div>
-
-		  <div class="container">
-			<div >
-
-			  <form class="col s12" method="post">
-			  
-				<div class='row'>
-				  <div class='input-field col s12'>
-					<input class='validate' type='email' name='email' id='email' />
-					<label for='email'>Enter your email</label>
-				  </div>
-				</div>
-
-				<div class='row'>
-				  <div class='input-field col s12'>
-					<input class='validate' type='password' name='password' id='password' />
-					<label for='password'>Enter your password</label>
-				  </div>
-				  <label style='float: right;'>
-					<a class='pink-text' href='#!'><b>Forgot Password?</b></a>
-				  </label>
-				</div>
-
-				<br />
-				  <div class='row'>
-					<button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>Login</button>
-				  </div>
-			  </form>
-			</div>
-		  </div>
-		</div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-    </div>
-  </div>
-  
-    <div class="row">
-	<div class="col s12">
-		<div class="input-field">
-			<form action="" method="post">
-			<h5>Lehrer suchen: </h5><input type="text" name="typeahead" class="typeahead tt-query" autocomplete="off" spellcheck="false" placeholder="Namen eingeben">
-			<button type="submit" class='btn btn-large waves-effect indigo'>Los!</button>
-			</form>
-		</div>
-    </div>
-	</div>
-  
+  <div class="container"> 
   	 
 	<div class="row">
         <div class="col s12">
           <div class="card">
             <div class="card-content">
-              <span class="card-title">
-				  <?php
-					global $db;
-					if(isset($_POST['typeahead'])) {
-						$lehrer = $_POST['typeahead'];
-						echo "<center>";
-						$erg= $db->query("select * from Teacher where Teacher_Name LIKE '$lehrer'");
-						echo "<script>document.getElementById('lehrer').value</script>";
-							
-						while($zeile= $erg->fetch_object()){
-							echo "<pre>";
-							echo "<font face='Arial' size='6'> $zeile->Teacher_Name</font><br>";
-							echo "</pre>";		
-						}
-					}						
-				?>  
-			 </span>
+              <span class="card-title"><?php echo $name; ?></span>
               <p>Eventuelle Informationen über den Lehrer</p>
             </div>
           </div>
         </div>
-		<center><h4>FÜ Stunden:</h4></center>
+		<center><h4>Meine FÜ Stunden:</h4></center>
+		
 		
 		<?php
 			global $db;
-			if(isset($_POST['typeahead'])) {
-				$lehrer = $_POST['typeahead'];
-				$events= $db->query("select * from EventwithTeacher natural join Event natural join EventwithSchoolClass where Teacher_Name LIKE '$lehrer'");
+			global $name;
+				
+				$events= $db->query("select * from EventwithTeacher natural join Event natural join EventwithSchoolClass where Teacher_Name LIKE '$name'");
 				
 				if(!$events)
 					die($db->error);
@@ -149,24 +85,21 @@ include("db.php");
 					</div>";
 						
 				}			
-			}
-		
-			if(isset($_POST['typeahead'])) {
-				$lehrer = $_POST['typeahead'];
-				$credit= $db->query("select * from Teacher where Teacher_Name LIKE '$lehrer'");
+
+				$credit= $db->query("select * from Teacher where Teacher_Name LIKE '$name'");
 				$c = $credit->fetch_object();
 				echo "
-				<br><br><br><br><br><br><br>
-				<div class='col s12 m3'>
+				<br><br><br><br><br><br><br><br><br><br><br><br><br>
+				<hr>
+				<div class='col s12'>
 					<div class='card'>
 						<div class='card-content'>
 							<span class='card-title'>
-								<b>Guthaben: $c->Credit</b>
+								<center><b>Guthaben: $c->Credit</b></center>
 							</span>
 						</div>
 					</div>
-				</div>";
-			}		
+				</div>";		
 		?>	
 		
 		
@@ -174,6 +107,7 @@ include("db.php");
   
   
  </div> 
+
 
          
   <footer class="page-footer white">

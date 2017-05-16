@@ -1,7 +1,25 @@
 <?php
-	include("db.php");
 	session_start();
-	
+	include("db.php");
+	if(isset($_POST["btn_login"])){
+		$username=mysqli_real_escape_string($db,$_POST['username']); 
+		$password=mysqli_real_escape_string($db,$_POST['password']); 
+		$password=md5($password); 
+		$sql="SELECT Teacher_Name FROM Teacher WHERE Teacher_Name ='$username' and Password='$password'";
+		$result=mysqli_query($db,$sql);
+		$count=mysqli_num_rows($result);
+
+		if($count==1)
+		{
+			$_SESSION['username'] = $username;
+			header("location: me.php");
+		}
+		else 
+		{
+			echo "<script>alert('Your Login Name or Password is invalid')</script>";
+		}
+	}
+
 	if(isset($_POST["btnHinzufuegen"])){
 	global $db;
 	$titel = $_POST["titel"];
@@ -23,9 +41,17 @@
 
 }
 
-	if(isset($_POST["lehrerhinzufuegen"])){
-		global $db;
-		$lehreradd = $_POST["lehreradd"];
+	if(isset($_POST['klassname']) && isset($_POST['klassesearch'])) {
+		$klasse = $_POST['klassesearch'];
+		$_SESSION['klasse'] = $klasse;
+	}
+	
+	
+	if(isset($_POST["btnLehrerHinzufuegen"])){
+		global $meintag;
+		echo "mein Tag: $meintag";
+		$lehrername = $_POST["lehrername"];
+		$eventid = "SELECT Event_ID FROM Event WHERE Titel ='$username' and Password='$password'";
 		
 		$sql= $db->prepare("insert into EventwithTeacher(Event_ID, Teacher_Name) VALUES(?, ?)");
 		$sql->bind_param("s", $lehreradd);
@@ -36,13 +62,9 @@
 			print_r($db->error);
 			echo "<script type='text/javascript'>alert(Fehler - Lehrer konnte nicht hinzugefügt werden');</script>";
 		}
+		
+		
 	}
-	
-	if(isset($_POST['klassname']) && isset($_POST['klassesearch'])) {
-		$klasse = $_POST['klassesearch'];
-		$_SESSION['klasse'] = $klasse;
-	}
-
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -74,6 +96,8 @@
 				limit : 10
 			});
 		});
+		
+		var dump = Document.getElementById("")
 	</script>
 </head>
 <body>
@@ -98,27 +122,20 @@
     <div class="modal-content">
       <h4><center>Login</center></h4>
 		  <div class="section"></div>
-
 		  <div class="container">
 			<div >
-
-			  <form class="col s12" method="post">
+			  <form class="col s12" action="" method="post">
 			  
 				<div class='row'>
 				  <div class='input-field col s12'>
-					<input class='validate' type='email' name='email' id='email' />
-					<label for='email'>Enter your email</label>
+				  <input type="text" name="username" class="typeahead2 tt-query" autocomplete="off" spellcheck="false" placeholder="Lehrer suchen">
 				  </div>
 				</div>
 
 				<div class='row'>
 				  <div class='input-field col s12'>
-					<input class='validate' type='password' name='password' id='password' />
-					<label for='password'>Enter your password</label>
+					<input class='validate' type='password' name='password' id='password' placeholder="Passwort"/>
 				  </div>
-				  <label style='float: right;'>
-					<a class='pink-text' href='#!'><b>Forgot Password?</b></a>
-				  </label>
 				</div>
 
 				<br />
@@ -147,7 +164,6 @@
     <div class="modal-footer">
 		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
 		<a href="#modal1" class="modal-action waves-effect waves-green btn-flat">EDIT</a>
-		<a href="#modal2" class="modal-action waves-effect waves-green btn-flat">Lehrer hinzufügen</a>
     </div>
   </div>
   
@@ -186,8 +202,15 @@
 			<div class="input-field col s6">
 			  <input id="first_name" type="text" name="endstunde" class="validate" required>
 			  <label for="first_name">Endstunde *</label>
-			</div>			
+			</div>	
+
+			<div class="input-field col s3">
+			  <input type="text" name="lehrername" class="typeahead2 tt-query" autocomplete="off" spellcheck="false" placeholder="Lehrer suchen" required>
+			</div>
 			
+			<div class="input-field col s3">
+				<button type="submit" name="btnLehrerHinzufuegen" class='btn btn-large waves-effect indigo'>Los!</button>
+			</div>
 			
 			</div>
 		</div>
@@ -199,29 +222,7 @@
   </div>
   
   
-  <!-- Modal Unten Lehrer -->
-  <div id="modal2" class="modal bottom-sheet">
-	<form action="" method="post">
-		<div class="modal-content">
-		  <h4>Hinzufügen</h4>
-		  <div class="row">	
-			<div class="input-field col s3">
-			  <input type="text" name="klassesearch" class="typeahead2 tt-query" autocomplete="off" spellcheck="false" placeholder="Lehrer suchen" required>
-			</div>
-			
-			<div class="input-field col s3">
-				<button type="submit" class='btn btn-large waves-effect indigo'>Los!</button>
-			</div>			
-			<br><br><br><br><br><br><br><br><br><br><br>
-			</div>
-		</div>
-		<div class="modal-footer">	
-			<input type="submit" class="modal-action waves-effect waves-light btn-flat" name="btnHinzufuegen" value="OK"></input>
-			<input type="submit" class="modal-action waves-effect waves-light btn-flat modal-close" name="btnHinzufuegen" value="Abbrechen"></input>
-		</div>
-	</form>
-  </div>
-          
+
 	
   	<div class="row">
 		<div class="input-field col s6">
@@ -386,7 +387,7 @@
 					$endHour = $array['End_Hour'];
 					if($array['Begin_Hour'] <= $stunde && $array['End_Hour'] >= $stunde && in_array($stunde, $eventsArray) && $stundeHatEintrag[$stunde] == '0') {
 						$stundeHatEintrag[$stunde] = '1';
-						echo "<td><a href='index.php?Titel=$array[Titel]'><a href='#modalOverview'><b>$array[Titel]&nbsp;</b>am $array[Date]</a></a></td>";
+						echo "<td><a href='#modalOverview' id='$array[Event_ID]')><b>$array[Titel]&nbsp;</b>am $array[Date]</a></td>";
 					} else if(in_array($stunde, $eventsArray)){ } else if($stundeHatEintrag[$stunde] == '0'){
 						echo"<td><a href='#modal1'>Add FÜÜÜ</a></td>";
 						$stundeHatEintrag[$stunde] = '1';
@@ -417,12 +418,10 @@
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
   <script>  $(document).ready(function(){
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
   });
   
   $(document).ready(function(){
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
   });
   
@@ -436,8 +435,8 @@
   });
       
 	$('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15,// Creates a dropdown of 15 years to control year
+    selectMonths: true,
+    selectYears: 15,
 	format: 'yyyy-mm-dd',
 	labelMonthNext: 'Nächster Monat',
 	labelMonthPrev: 'Letzter Monat',

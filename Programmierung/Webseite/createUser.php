@@ -8,55 +8,140 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 // Username und Passwort vom Formular
 $username=mysqli_real_escape_string($db,$_POST['username']); 
 $password=mysqli_real_escape_string($db,$_POST['password']);
-$kreditrahmen=mysqli_real_escape_string($db,$_POST['rahmen']); 
 $password=md5($password); // Passwort mit MD5 verschlüsseln
-$sql="Insert into admin(username,kreditrahmen,passcode) values('$username','$kreditrahmen','$password');";
+$sql = "UPDATE Teacher SET Password = '$password' WHERE Teacher_Name = '$username';";
 $result=mysqli_query($db,$sql);
-echo "<h3 style='color:green;'>Registration Successfully - <a href='login.php'>Zum Login</a></h3>";
+echo "<h3 style='color:green;'>Passwort Erfolgreich gesetzt - <a href='login.php'>Zum Login</a></h3>";
 }
 
 ?>
-<head>
-<link rel="stylesheet" type="text/css" href="style.css">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="js/typeahead.min.js"></script>
-<link href="css/liveSearch.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
-<script>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Starter Template - Materialize</title>
+
+  <!-- CSS  -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="js/typeahead.min.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/liveSearch.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  
+    <script>		
 		$(document).ready(function(){
-			$('input.typeahead').typeahead({
-				name: 'typeahead',
+			$('input.typeahead2').typeahead({
+				name: 'lehrerdel',
 				remote:'php/updateLehrer/search.php?key=%QUERY',
 				limit : 10
 			});
 		});
-</script>
-
-
-
+    </script>
+	
 </head>
 <body>
-<center>
-<div id="alles">
-<form action="createUser.php" method="post">
+ <h4><center>Lehrer Passwort setzen</center></h4>
 
-	<h3>create User</h3>
-	<div class="container">
+	
 	<div class="row">
-		<div class="col s3">
+        <div class="col s12 m12">
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">Lehrer</span>
+				<form action="" method="post">
+				
+					<div class="row">	
+						<div class="input-field col s6">
+							<input type="text" name="username" class="typeahead2 tt-query" autocomplete="off" spellcheck="false" placeholder="Lehrer suchen">
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="input-field col s6">
+							<input id="first_name" name="password" type="password" class="validate" placeholder="Password">
+						</div>	
+					</div>
+					
+					<div class="row">
+						<div class="input-field col s12">
+							<button type='submit' class='col s12 btn btn-large waves-effect indigo'>Passwort Setzen</button>
+						</div>	
+					</div>
+					
+					
+					
+				</form>
+            </div>
+          </div>
+        </div>
+    </div> 
+ </div> 
 
-				<input type="text" name="typeahead" class="typeahead tt-query" autocomplete="off" spellcheck="false" placeholder="Namen eingeben">
+ <h4><center>Admin Benutzer erstellen</center></h4>
 
-				<input type="password" name="password" width="10" placeholder="Passwort setzen"/><br/>
+	
+	<div class="row">
+        <div class="col s12 m12">
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">Admin</span>
+				<form action="" method="post">
+				
+					<div class="row">	
+						<div class="input-field col s6">
+							<input name="username" type="text" class="validate" placeholder="Password">
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="input-field col s6">
+							<input name="password" type="password" class="validate" placeholder="Password">
+						</div>	
+					</div>
+					
+					<div class="row">
+						<div class="input-field col s12">
+							<button type='submit' class='col s12 btn btn-large waves-effect indigo'>Passwort Setzen</button>
+						</div>	
+					</div>
+					
+					
+					
+				</form>
+            </div>
+          </div>
+        </div>
+    </div> 
+ </div> 
+ 
+ 
+  <!--  Scripts-->
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script>  $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
+  
+  $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
+  
+  
+  $(document).ready(function() {
+    $('select').material_select();
+  });
+  
+    $(document).ready(function(){
+    $('.tooltipped').tooltip({delay: 50});
+  });
+      
+  
+  </script>
 
-				<input type="submit" value=" Benutzer erstellen "/><br />
-
-		</div>
-	</div>
-	</div>
-</form>
-</center>
-</div>
+  </body>
+</html>

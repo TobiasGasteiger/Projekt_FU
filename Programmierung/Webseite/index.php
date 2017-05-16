@@ -1,5 +1,6 @@
 <?php
 	include("db.php");
+	session_start();
 	
 	if(isset($_POST["btnHinzufuegen"])){
 	global $db;
@@ -21,6 +22,26 @@
 	}
 
 }
+
+	if(isset($_POST["lehrerhinzufuegen"])){
+		global $db;
+		$lehreradd = $_POST["lehreradd"];
+		
+		$sql= $db->prepare("insert into EventwithTeacher(Event_ID, Teacher_Name) VALUES(?, ?)");
+		$sql->bind_param("s", $lehreradd);
+
+		if($sql->execute()){
+			echo "<script type='text/javascript'>alert('Lehrer hinzugefügt!');</script>";
+		}else{
+			print_r($db->error);
+			echo "<script type='text/javascript'>alert(Fehler - Lehrer konnte nicht hinzugefügt werden');</script>";
+		}
+	}
+	
+	if(isset($_POST['klassname']) && isset($_POST['klassesearch'])) {
+		$klasse = $_POST['klassesearch'];
+		$_SESSION['klasse'] = $klasse;
+	}
 
 ?>
 <!DOCTYPE html>
@@ -126,11 +147,12 @@
     <div class="modal-footer">
 		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
 		<a href="#modal1" class="modal-action waves-effect waves-green btn-flat">EDIT</a>
+		<a href="#modal2" class="modal-action waves-effect waves-green btn-flat">Lehrer hinzufügen</a>
     </div>
   </div>
   
   
-   <!-- Modal Unten -->
+   <!-- Modal Unten FU Stunde-->
   <div id="modal1" class="modal bottom-sheet">
 	<form action="" method="post">
 		<div class="modal-content">
@@ -151,18 +173,10 @@
 			  <label for="first_name">Datum *</label>
 			</div>
 			
-			<div class="input-field col s3">
-			  <input type="text" name="klassesearch" class="typeahead2 tt-query" autocomplete="off" spellcheck="false" placeholder="Lehrer*" required>
-			</div>
-			
-			<div class="input-field col s3">
-			  <input type="submit" id="first_name" type="text" name="lehrer" class="modal-action modal-close waves-effect waves-green btn" value="Hinzufügen">
-			</div>
-			
 			<div class="input-field col s6">
 			  <input id="first_name" type="text" name="zusatzpersonen" class="validate">
 			  <label for="first_name">Zusatzpersonen</label>
-			</div>
+			</div>	
 			
 			<div class="input-field col s6">
 			  <input id="first_name" type="text" name="anfangsstunde" class="validate" required>
@@ -172,8 +186,34 @@
 			<div class="input-field col s6">
 			  <input id="first_name" type="text" name="endstunde" class="validate" required>
 			  <label for="first_name">Endstunde *</label>
+			</div>			
+			
+			
 			</div>
-		  </div>
+		</div>
+		<div class="modal-footer">	
+			<input type="submit" class="modal-action waves-effect waves-light btn-flat" name="btnHinzufuegen" value="OK"></input>
+			<input type="submit" class="modal-action waves-effect waves-light btn-flat modal-close" name="btnHinzufuegen" value="Abbrechen"></input>
+		</div>
+	</form>
+  </div>
+  
+  
+  <!-- Modal Unten Lehrer -->
+  <div id="modal2" class="modal bottom-sheet">
+	<form action="" method="post">
+		<div class="modal-content">
+		  <h4>Hinzufügen</h4>
+		  <div class="row">	
+			<div class="input-field col s3">
+			  <input type="text" name="klassesearch" class="typeahead2 tt-query" autocomplete="off" spellcheck="false" placeholder="Lehrer suchen" required>
+			</div>
+			
+			<div class="input-field col s3">
+				<button type="submit" class='btn btn-large waves-effect indigo'>Los!</button>
+			</div>			
+			<br><br><br><br><br><br><br><br><br><br><br>
+			</div>
 		</div>
 		<div class="modal-footer">	
 			<input type="submit" class="modal-action waves-effect waves-light btn-flat" name="btnHinzufuegen" value="OK"></input>
@@ -185,7 +225,10 @@
 	
   	<div class="row">
 		<div class="input-field col s6">
-			<input type="text" name="klassesearch" class="typeahead1 tt-query" autocomplete="off" spellcheck="false" placeholder="Klasse suchen">
+			<form action="" method="post">
+				<input type="text" name="klassesearch" class="typeahead1 tt-query" autocomplete="off" spellcheck="false" placeholder="Klasse suchen">
+				<button type="submit" name="klassname" class='btn btn-large waves-effect indigo'>Los!</button>
+			</form>
 		</div>
      </div>
 	  
@@ -201,49 +244,160 @@
         </thead>
 
         <tbody>
-   
-		  <tr>
-            <td><a href="#modalOverview">Kochen</a> (12.04.2017)</td>
-            <td><a href="#modalOverview">Kochen</a> (12.04.2017)</td>
-            <td><a href="#modalOverview">Kochen</a> (12.04.2017)</td>
-            <td><a href="#modalOverview">Kochen</a> (12.04.2017)</td>
-            <td><a href="#modalOverview">Kochen</a> (12.04.2017)</td>
-          </tr>
-          <tr>
-            <td><a href="#modalOverview">Kochen</a> (12.04.2017)</td>
-            <td><a href="#modalOverview">Kochen</a> (12.04.2017)</td>
-            <td><a href="#modalOverview">Kochen</a> (12.04.2017)</td>
-            <td><a href="#modalOverview">Kochen</a> (12.04.2017)</td>
-            <td><a href="#modalOverview">Kochen</a> (12.04.2017)</td>
-          </tr>
-          <tr>
-                <td>Alan</td>
-            <td>Jellybean</td>
-            <td>$3.76</td>
-			<td>$3.76</td>
-			<td>$3.76</td>
-          </tr>
-		  <tr>
-            <td>Alan</td>
-            <td>Jellybean</td>
-            <td>$3.76</td>
-			<td>$3.76</td>
-			<td>$3.76</td>
-          </tr>
-		 <tr>
-            <td>Alan</td>
-            <td>Jellybean</td>
-            <td>$3.76</td>
-			<td>$3.76</td>
-			<td>$3.76</td>
-          </tr>
-		  <tr>
-            <td>Alan</td>
-            <td>Jellybean</td>
-            <td>$3.76</td>
-			<td>$3.76</td>
-			<td>$3.76</td>
-          </tr>
+		<?php
+			date_default_timezone_set("Europe/Rome");
+			if(isset($_SESSION['klasse'])){
+				$klasse = $_SESSION['klasse'];
+				$klasseEvent = $db->query("select * from EventwithSchoolClass natural join Event where SchoolClass_Description = '$klasse';");
+				$timetableofClass = $db->query("select SchoolDay, max(SchoolHour) as endHour from Timetable where SchoolClass_Description = '$klasse' group by SchoolDay;");
+				
+				if(!$klasseEvent)
+					die($db->error);
+				
+				if(!$timetableofClass)
+					die($db->error);				
+				
+				$mo = 0;
+				$di = 0;
+				$mi = 0;
+				$do = 0;
+				$fr = 0;
+				
+				while($row = $klasseEvent->fetch_object()) {
+					$datum = $row->Date;
+					$weekday = date('l', strtotime($datum));
+					if($weekday == "Monday"){
+						$montag[$mo] = array(
+							"Event_ID" => $row->Event_ID,
+							"SchoolClass_Description" => $row->SchoolClass_Description,
+							"Titel" => $row->Titel,
+							"Description" => $row->Description,
+							"Date" => $row->Date,
+							"Begin_Hour" => $row->Begin_Hour,
+							"End_Hour" => $row->End_Hour,						
+						);
+						$mo++;
+					}
+					if($weekday == "Tuesday"){
+						$dienstag[$di] = array(
+							"Event_ID" => $row->Event_ID,
+							"SchoolClass_Description" => $row->SchoolClass_Description,
+							"Titel" => $row->Titel,
+							"Description" => $row->Description,
+							"Date" => $row->Date,
+							"Begin_Hour" => $row->Begin_Hour,
+							"End_Hour" => $row->End_Hour,						
+						);
+						$di++;
+					}
+					if($weekday == "Wednesday"){
+						$mittwoch[$mi] = array(
+							"Event_ID" => $row->Event_ID,
+							"SchoolClass_Description" => $row->SchoolClass_Description,
+							"Titel" => $row->Titel,
+							"Description" => $row->Description,
+							"Date" => $row->Date,
+							"Begin_Hour" => $row->Begin_Hour,
+							"End_Hour" => $row->End_Hour,						
+						);
+						$mi++;
+					}
+					if($weekday == "Thursday"){
+						$donnerstag[$do] = array(
+							"Event_ID" => $row->Event_ID,
+							"SchoolClass_Description" => $row->SchoolClass_Description,
+							"Titel" => $row->Titel,
+							"Description" => $row->Description,
+							"Date" => $row->Date,
+							"Begin_Hour" => $row->Begin_Hour,
+							"End_Hour" => $row->End_Hour,						
+						);
+						$do++;
+					}
+					if($weekday == "Friday"){
+						$freitag[$fr] = array(
+							"Event_ID" => $row->Event_ID,
+							"SchoolClass_Description" => $row->SchoolClass_Description,
+							"Titel" => $row->Titel,
+							"Description" => $row->Description,
+							"Date" => $row->Date,
+							"Begin_Hour" => $row->Begin_Hour,
+							"End_Hour" => $row->End_Hour,						
+						);
+						$fr++;
+					}
+				}				
+			}
+		
+		$stunde = 1;	
+		
+		while($stunde <= 6) {
+			echo"<tr>";			
+			
+			global $montag;
+			global $dienstag;
+			global $mittwoch;
+			global $donnerstag;
+			global $freitag;
+						
+			addStunde($montag, $stunde, getEventNumbers($montag));
+			addStunde($dienstag, $stunde, getEventNumbers($dienstag));
+			addStunde($mittwoch, $stunde, getEventNumbers($mittwoch));
+			addStunde($donnerstag, $stunde, getEventNumbers($donnerstag));
+			addStunde($freitag, $stunde, getEventNumbers($freitag));
+			
+			echo"</tr>";
+			$stunde++;
+		}
+		
+		function getEventNumbers($tag) {
+			$eventsProTag = count($tag);
+			$j = 0;
+			$stundenFU = array();
+			while($j < $eventsProTag) {
+				$array = $tag[$j];
+				$insertHour = 1;
+				while($insertHour <= 6) {
+					if($insertHour >= $array['Begin_Hour'] && $insertHour <= $array['End_Hour']) {
+						$stundenFU[] = $insertHour;
+					}	
+					$insertHour++;
+				}
+				$j++;			
+			}
+			return $stundenFU;
+		}
+		
+		function addStunde($tag, $stunde, $eventsArray) {		
+			$eventsProTag = count($tag);
+			if($eventsProTag > 0) {
+				$i = 0;
+				$stundeHatEintrag = array(
+					'1' => '0',
+					'2' => '0',
+					'3' => '0',
+					'4' => '0',
+					'5' => '0',
+					'6' => '0',				
+				);
+				while($i < $eventsProTag) {
+					$array = $tag[$i];
+					$begHour = $array['Begin_Hour'];
+					$endHour = $array['End_Hour'];
+					if($array['Begin_Hour'] <= $stunde && $array['End_Hour'] >= $stunde && in_array($stunde, $eventsArray) && $stundeHatEintrag[$stunde] == '0') {
+						$stundeHatEintrag[$stunde] = '1';
+						echo "<td><a href='index.php?Titel=$array[Titel]'><a href='#modalOverview'><b>$array[Titel]&nbsp;</b>am $array[Date]</a></a></td>";
+					} else if(in_array($stunde, $eventsArray)){ } else if($stundeHatEintrag[$stunde] == '0'){
+						echo"<td><a href='#modal1'>Add FÜÜÜ</a></td>";
+						$stundeHatEintrag[$stunde] = '1';
+					}
+					$i++;
+				} 				
+			} else {
+				echo"<td><a href='#modal1'>Add FÜ</a></td>";
+			}
+		}
+		?>
         </tbody>
       </table>
     </div>

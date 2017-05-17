@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	include("db.php");
+	
 	if(isset($_POST["btn_login"])){
 		$username=mysqli_real_escape_string($db,$_POST['username']); 
 		$password=mysqli_real_escape_string($db,$_POST['password']); 
@@ -8,61 +9,57 @@
 		$sql="SELECT Teacher_Name FROM Teacher WHERE Teacher_Name ='$username' and Password='$password'";
 		$result=mysqli_query($db,$sql);
 		$count=mysqli_num_rows($result);
-
-		if($count==1)
-		{
+		
+		if($count==1) {
 			$_SESSION['username'] = $username;
 			header("location: me.php");
-		}
-		else 
-		{
+		} else {
 			echo "<script>alert('Your Login Name or Password is invalid')</script>";
 		}
 	}
-
-	if(isset($_POST["btnHinzufuegen"])){
-	global $db;
-	$titel = $_POST["titel"];
-	$beschreibung = $_POST["beschreibung"];
-	$datum = $_POST["datum"];
-	$zusatzpersonen = $_POST["zusatzpersonen"];
-	$anfangsstunde = $_POST["anfangsstunde"];
-	$endstunde = $_POST["endstunde"];
-
 	
-	$sql= $db->prepare("insert into Event(Titel,Description,Date,Person,Begin_Hour,End_Hour) VALUES(?,?,?,?,?,?)");
-	$sql->bind_param("ssssii", $titel, $beschreibung, $datum, $zusatzpersonen, $anfangsstunde, $endstunde);
-	
-	if($sql->execute()){
-		echo "<script type='text/javascript'>alert('Daten hinzugefügt!');</script>";
-	}else{
-		echo "<script type='text/javascript'>alert(Fehler - Daten konnten nicht hinzugefügt werden');</script>";
-	}
-
-}
-
+	if(isset($_POST["btnHinzufuegen"]) && isset($_SESSION["klasse"])){
+		global $db;
+		$titel = $_POST["titel"];
+		$beschreibung = $_POST["beschreibung"];
+		$datum = $_POST["datum"];
+		$zusatzpersonen = $_POST["zusatzpersonen"];
+		$anfangsstunde = $_POST["anfangsstunde"];
+		$endstunde = $_POST["endstunde"];
+		
+		$sql= $db->prepare("insert into Event(Titel,Description,Date,Person,Begin_Hour,End_Hour) VALUES(?,?,?,?,?,?);");
+		$sql->bind_param("ssssii", $titel, $beschreibung, $datum, $zusatzpersonen, $anfangsstunde, $endstunde);
+		
+		$klasse = $_SESSION['klasse'];
+		
+		if($sql->execute()) {
+			$eventID = $sql->insert_id;
+		} else {
+			die($db->error);
+		}		
+		
+		if($sql){
+			$sql->close();
+			
+			$eventWithClass = $db->prepare("insert into EventwithSchoolClass(Event_ID, SchoolClass_Description) VALUES (?,?);");
+			$eventWithClass->bind_param("ss", $eventID, $klasse);
+				
+			if($eventWithClass->execute()){
+				echo "<script type='text/javascript'>alert('Daten hinzugefügt!');</script>";
+			} else {
+				"<script type='text/javascript'>alert(Fehler - Daten konnten nicht hinzugefügt werden');</script>";	
+			}
+		} else {
+			echo "<script type='text/javascript'>alert(Fehler - Daten konnten nicht hinzugefügt werden');</script>";
+		}
+	} 
+		
 	if(isset($_POST['klassname']) && isset($_POST['klassesearch'])) {
 		$klasse = $_POST['klassesearch'];
 		$_SESSION['klasse'] = $klasse;
 	}
 	
-	
 	if(isset($_POST["btnLehrerHinzufuegen"])){
-		global $meintag;
-		echo "mein Tag: $meintag";
-		$lehrername = $_POST["lehrername"];
-		$eventid = "SELECT Event_ID FROM Event WHERE Titel ='$username' and Password='$password'";
-		
-		$sql= $db->prepare("insert into EventwithTeacher(Event_ID, Teacher_Name) VALUES(?, ?)");
-		$sql->bind_param("s", $lehreradd);
-
-		if($sql->execute()){
-			echo "<script type='text/javascript'>alert('Lehrer hinzugefügt!');</script>";
-		}else{
-			print_r($db->error);
-			echo "<script type='text/javascript'>alert(Fehler - Lehrer konnte nicht hinzugefügt werden');</script>";
-		}
-		
 		
 	}
 ?>
@@ -170,54 +167,51 @@
   
    <!-- Modal Unten FU Stunde-->
   <div id="modal1" class="modal bottom-sheet">
-	<form action="" method="post">
+	<form method="post">
 		<div class="modal-content">
 		  <h4>Hinzufügen</h4>
-		  <div class="row">
-			<div class="input-field col s6">
-			  <input id="first_name" type="text" name="titel" class="validate" required>
-			  <label for="first_name">Titel *</label>
-			</div>
-			
-			<div class="input-field col s6">
-			  <input id="first_name" type="text" name="beschreibung" class="validate">
-			  <label for="first_name">Beschreibung</label>
-			</div>
-			
-			<div class="input-field col s6">
-			  <input type="date" class="datepicker" name="datum" required>
-			  <label for="first_name">Datum *</label>
-			</div>
-			
-			<div class="input-field col s6">
-			  <input id="first_name" type="text" name="zusatzpersonen" class="validate">
-			  <label for="first_name">Zusatzpersonen</label>
-			</div>	
-			
-			<div class="input-field col s6">
-			  <input id="first_name" type="text" name="anfangsstunde" class="validate" required>
-			  <label for="first_name">Anfangsstunde *</label>
-			</div>
-			
-			<div class="input-field col s6">
-			  <input id="first_name" type="text" name="endstunde" class="validate" required>
-			  <label for="first_name">Endstunde *</label>
-			</div>	
+			<div class="row">
+				<div class="input-field col s6">
+				  <input id="first_name" type="text" name="titel" class="validate" required>
+				  <label for="first_name">Titel *</label>
+				</div>
+				
+				<div class="input-field col s6">
+				  <input id="first_name" type="text" name="beschreibung" class="validate">
+				  <label for="first_name">Beschreibung</label>
+				</div>
+					
+				<div class="input-field col s6">
+				  <input type="date" class="datepicker" name="datum" required>
+				  <label for="first_name">Datum *</label>
+				</div>
+					
+				<div class="input-field col s6">
+				  <input id="first_name" type="text" name="zusatzpersonen" class="validate">
+				  <label for="first_name">Zusatzpersonen</label>
+				</div>	
+					
+				<div class="input-field col s6">
+				  <input id="first_name" type="text" name="anfangsstunde" class="validate" required>
+				  <label for="first_name">Anfangsstunde *</label>
+				</div>
+					
+				<div class="input-field col s6">
+				  <input id="first_name" type="text" name="endstunde" class="validate" required>
+				  <label for="first_name">Endstunde *</label>
+				</div>
+				
+				<div class="input-field col s6">
+					<input type="text" id="teacherName" name="teacherName" class="typeahead2 tt-query" autocomplete="off" spellcheck="false" placeholder="Lehrer suchen"></input>
+					<input type="button" onclick="addName()" id="addName" name="addName" class='modal-action btn btn-large waves-effect indigo' value="Hinzufügen"></input>		
+				</div>
 
-			<div class="input-field col s3">
-			  <input type="text" name="lehrername" class="typeahead2 tt-query" autocomplete="off" spellcheck="false" placeholder="Lehrer suchen" required>
+				<div class="modal-footer">	
+					<input type="submit" class="modal-action waves-effect waves-light btn-flat" name="btnHinzufuegen" value="OK"></input>
+					<input type="submit" class="modal-action waves-effect waves-light btn-flat modal-close" name="btnHinzufuegen" value="Abbrechen"></input>
+				</div>				
 			</div>
-			
-			<div class="input-field col s3">
-				<button type="submit" name="btnLehrerHinzufuegen" class='btn btn-large waves-effect indigo'>Los!</button>
-			</div>
-			
-			</div>
-		</div>
-		<div class="modal-footer">	
-			<input type="submit" class="modal-action waves-effect waves-light btn-flat" name="btnHinzufuegen" value="OK"></input>
-			<input type="submit" class="modal-action waves-effect waves-light btn-flat modal-close" name="btnHinzufuegen" value="Abbrechen"></input>
-		</div>
+		</div>		
 	</form>
   </div>
   
@@ -457,3 +451,5 @@
 
   </body>
 </html>
+Contact GitHub API Training Shop Blog About
+© 2017 GitHub, Inc. Terms Privacy Security Status Help

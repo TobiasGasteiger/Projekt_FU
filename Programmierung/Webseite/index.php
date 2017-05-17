@@ -93,8 +93,6 @@
 				limit : 10
 			});
 		});
-		
-		var dump = Document.getElementById("")
 	</script>
 </head>
 <body>
@@ -148,22 +146,7 @@
     </div>
   </div>
   <!--Modal Login-->
-  
-  
-    <!-- Modal Preview -->
-  <div id="modalOverview" class="modal">
-    <div class="modal-content">
-      <h4>Montag 1. Stunde</h4>
-      <p>Lehrpersonen: ...</p>
-	  <p>Thema: Kochen</p>
-	  <p>Infos: ...</p>
-    </div>
-    <div class="modal-footer">
-		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
-		<a href="#modal1" class="modal-action waves-effect waves-green btn-flat">EDIT</a>
-    </div>
-  </div>
-  
+    
   
    <!-- Modal Unten FU Stunde-->
   <div id="modal1" class="modal bottom-sheet">
@@ -259,6 +242,7 @@
 				$fr = 0;
 				
 				while($row = $klasseEvent->fetch_object()) {
+					createModalforEvent($row);
 					$datum = $row->Date;
 					$weekday = date('l', strtotime($datum));
 					if($weekday == "Monday"){
@@ -381,17 +365,61 @@
 					$endHour = $array['End_Hour'];
 					if($array['Begin_Hour'] <= $stunde && $array['End_Hour'] >= $stunde && in_array($stunde, $eventsArray) && $stundeHatEintrag[$stunde] == '0') {
 						$stundeHatEintrag[$stunde] = '1';
-						echo "<td><a href='#modalOverview' id='$array[Event_ID]')><b>$array[Titel]&nbsp;</b>am $array[Date]</a></td>";
+						echo "<td><a href='#modalEvent$array[Event_ID]' id='$array[Event_ID]')><b>$array[Titel]&nbsp;</b>am $array[Date]</a></td>";
 					} else if(in_array($stunde, $eventsArray)){ } else if($stundeHatEintrag[$stunde] == '0'){
-						echo"<td><a href='#modal1'>Add FÜÜÜ</a></td>";
+						echo"<td><a href='#modalAdd'>Add FÜÜÜ</a></td>";
 						$stundeHatEintrag[$stunde] = '1';
 					}
 					$i++;
 				} 				
 			} else {
-				echo"<td><a href='#modal1'>Add FÜ</a></td>";
+				echo"<td><a href='#modalAdd'>Add FÜ</a></td>";
 			}
 		}
+		
+		//Diese Funktion erstell dynamisch die Modals für jedes Event, mit den jeweilig richtigen Funktionen
+		function createModalforEvent($row) {
+			//Die beteiligten Lehrer für das jeweilige Event laden
+			include("db.php");
+			$lehrer = $db->query("select Teacher_Name from Event natural join EventwithTeacher where Event_ID = $row->Event_ID;");
+			$db->close();
+			//Modal beginnen
+			$modal = 
+			"<div id='modalEvent$row->Event_ID' class='modal'>
+				<div class='modal-content'>
+				  <h4>$row->Titel</h4>";
+			//Wenn es einge Beschreibung gibt einfügen
+			if ($row->Description != null || $row->Description != ""){
+				$modal .= "<p>Beschreibung: $row->Description</p>";
+			}
+			//Datum einfügen
+			$modal .= "<p>Datum: $row->Date in der $row->Begin_Hour - $row->End_Hour Stunde</p>";	
+			//Lehrer einfügen
+			$modal .= "<p>Lehrer:";
+			while($rowLehrer = $lehrer->fetch_object()) {
+				$modal .= " $rowLehrer->Teacher_Name,";
+			}
+			$modal = rtrim($modal, ',');
+			$modal .= "</p>";
+			//Modal schließen  
+			$modal .="
+			</div>
+				<div class='modal-footer'>
+					<a href='#!' class='modal-action modal-close waves-effect waves-green btn-flat'>OK</a>
+					<a href='#modalEditEvent$row->Event_ID' class='modal-action waves-effect waves-green btn-flat'>EDIT</a>
+				</div>
+			</div>";
+			
+			echo $modal;
+
+			//Bearbeitungsfeld mit den Daten füllen
+			createModalforChangeEvent($row);
+		}
+		
+		function createModalforChangeEvent($row){
+			//Edit with NINZ code
+		}
+		
 		?>
         </tbody>
       </table>

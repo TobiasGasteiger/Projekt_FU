@@ -1,7 +1,7 @@
 <?php
-define('DB_SERVER', 'linuxserver');
-define('DB_USERNAME', 'ststeraf');
-define('DB_PASSWORD', 'mypass');
-define('DB_DATABASE', 'projekt_fu');
-$db = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+	$db_server = 'linuxserver';
+	$db_username = 'ststeraf';
+	$db_password = 'mypass';
+	$db_database = 'projekt_fu';
+	$db = mysqli_connect($db_server,$db_username,$db_password,$db_database);
 ?>

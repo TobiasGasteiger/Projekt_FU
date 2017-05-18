@@ -3,16 +3,26 @@
 include("db.php");
 
 
-if($_SERVER["REQUEST_METHOD"] == "POST")
-{
+if(isset($_POST["btnSetPassword"])){
 // Username und Passwort vom Formular
 $username=mysqli_real_escape_string($db,$_POST['username']); 
 $password=mysqli_real_escape_string($db,$_POST['password']);
 $password=md5($password); // Passwort mit MD5 verschlüsseln
 $sql = "UPDATE Teacher SET Password = '$password' WHERE Teacher_Name = '$username';";
 $result=mysqli_query($db,$sql);
-echo "<h3 style='color:green;'>Passwort Erfolgreich gesetzt - <a href='login.php'>Zum Login</a></h3>";
+echo "<h3 style='color:green;'>Passwort erfolgreich gesetzt</h3>";
 }
+
+if(isset($_POST["btnCreateAdmin"])){
+// Username und Passwort vom Formular
+$username=mysqli_real_escape_string($db,$_POST['username']); 
+$password=mysqli_real_escape_string($db,$_POST['password']);
+$password=md5($password); // Passwort mit MD5 verschlüsseln
+$sql = "insert into Admin VALUES ('$username', '$password')";
+$result=mysqli_query($db,$sql);
+echo "<h3 style='color:green;'>Admin erfolgreich erstellt</h3>";
+}
+
 
 ?>
 
@@ -43,6 +53,18 @@ echo "<h3 style='color:green;'>Passwort Erfolgreich gesetzt - <a href='login.php
 	
 </head>
 <body>
+  <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="index.html" class="brand-logo">FÜ Verwaltung</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="#loginModal">Login</a></li>
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav">
+        <li><a href="#loginModal">Login</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
  <h4><center>Lehrer Passwort setzen</center></h4>
 
 	
@@ -67,12 +89,9 @@ echo "<h3 style='color:green;'>Passwort Erfolgreich gesetzt - <a href='login.php
 					
 					<div class="row">
 						<div class="input-field col s12">
-							<button type='submit' class='col s12 btn btn-large waves-effect indigo'>Passwort Setzen</button>
+							<button type='submit' name="btnSetPassword" class='col s12 btn btn-large waves-effect indigo'>Passwort Setzen</button>
 						</div>	
-					</div>
-					
-					
-					
+					</div>	
 				</form>
             </div>
           </div>
@@ -92,7 +111,7 @@ echo "<h3 style='color:green;'>Passwort Erfolgreich gesetzt - <a href='login.php
 				
 					<div class="row">	
 						<div class="input-field col s6">
-							<input name="username" type="text" class="validate" placeholder="Password">
+							<input name="username" type="text" class="validate" placeholder="Benutzername">
 						</div>
 					</div>
 					
@@ -104,12 +123,9 @@ echo "<h3 style='color:green;'>Passwort Erfolgreich gesetzt - <a href='login.php
 					
 					<div class="row">
 						<div class="input-field col s12">
-							<button type='submit' class='col s12 btn btn-large waves-effect indigo'>Passwort Setzen</button>
+							<button type='submit' name="btnCreateAdmin" class='col s12 btn btn-large waves-effect indigo'>Erstellen</button>
 						</div>	
-					</div>
-					
-					
-					
+					</div>				
 				</form>
             </div>
           </div>
@@ -117,7 +133,15 @@ echo "<h3 style='color:green;'>Passwort Erfolgreich gesetzt - <a href='login.php
     </div> 
  </div> 
  
- 
+<footer class="page-footer white">
+
+          <div class="footer-copyright light-blue lighten-1">
+            <div class="container">
+            © 2017 Klasse 5BT (2016/17)
+            <a class="grey-text text-lighten-4 right" onclick="Materialize.toast('Sie besitzen die Version 0.1', 4000)">Version</a>
+            </div>
+          </div>
+</footer>
   <!--  Scripts-->
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>

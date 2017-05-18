@@ -25,8 +25,7 @@
 				<div class="col s12">
 				  <div class="card">
 					<div class="card-content">
-					  <span class="card-title"><?php echo $name; ?></span>
-					  <p>Eventuelle Informationen über den Lehrer</p>
+					  <center><span class="card-title"><?php echo $name; ?></span></center>
 					</div>
 				  </div>
 				</div>

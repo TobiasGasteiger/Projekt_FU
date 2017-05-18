@@ -97,7 +97,7 @@
 					</thead>
 
 					<tbody>
-						<?php include("php/includes/index/indexDynamicTable.php"); ?>
+						<?php include("php/includes/index/indexPhpDynamicTable.php"); ?>
 					</tbody>
 				</table>
 			</div>

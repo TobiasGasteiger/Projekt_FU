@@ -17,21 +17,31 @@
   <script src="js/includes/createUser/createUser.js"></script>	
 </head>
 <body>
-  <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="index.html" class="brand-logo">FÜ Verwaltung</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#loginModal">Login</a></li>
-      </ul>
+		<nav class='light-blue lighten-1' role='navigation'>
+			<div class='nav-wrapper container'><a id='logo-container' href='index.php' class='brand-logo'>FÜ Verwaltung</a>
+				<ul class='right hide-on-med-and-down'>
+					<li><a href='indexAdmin.php'>Plan verwalten</a></li>
+					<li><a href='createUser.php'>Benutzer hinzufügen</a></li>
+					<li><a href='add.php'>Daten hinzufügen</a></li>
+					<li><a href='teacher.php'>Lehrer Übersicht</a></li>
+					<li><a href='me.php?l=true'>Abmelden</a></li>
+				</ul>
 
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="#loginModal">Login</a></li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    </div>
-  </nav>
+				<ul id='nav-mobile' class='side-nav'>
+					<li><a href='indexAdmin.php'>Plan verwalten</a></li>
+					<li><a href='createUser.php'>Benutzer hinzufügen</a></li>
+					<li><a href='add.php'>Daten hinzufügen</a></li>
+					<li><a href='teacher.php'>Lehrer Übersicht</a></li>
+					<li><a href='me.php?l=true'>Abmelden</a></li>
+				</ul>
+				<a href='#' data-activates='nav-mobile' class='button-collapse'><i class='material-icons'>menu</i></a>
+			</div>
+		</nav>
+  
  <h4><center>Lehrer Passwort setzen</center></h4>
 
-	
+<div class="section no-pad-bot" id="index-banner">
+<div class="container">
 	<div class="row">
         <div class="col s12 m12">
           <div class="card">
@@ -47,7 +57,7 @@
 					
 					<div class="row">
 						<div class="input-field col s6">
-							<input id="first_name" name="password" type="password" class="validate" placeholder="Password">
+							<input id="first_name" name="password" type="password" class="validate" placeholder="Passwort">
 						</div>	
 					</div>
 					
@@ -61,7 +71,6 @@
           </div>
         </div>
     </div> 
- </div> 
 
  <h4><center>Admin Benutzer erstellen</center></h4>
 
@@ -81,7 +90,7 @@
 					
 					<div class="row">
 						<div class="input-field col s6">
-							<input name="password" type="password" class="validate" placeholder="Password">
+							<input name="password" type="password" class="validate" placeholder="Passwort">
 						</div>	
 					</div>
 					
@@ -96,6 +105,7 @@
         </div>
     </div> 
  </div> 
+ </div>
  
 <footer class="page-footer white">
 

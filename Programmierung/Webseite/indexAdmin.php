@@ -20,14 +20,18 @@
 	
 	<body>
 		<nav class='light-blue lighten-1' role='navigation'>
-			<div class='nav-wrapper container'><a id='logo-container' href='' class='brand-logo'>FÜ Verwaltung</a>
+			<div class='nav-wrapper container'><a id='logo-container' href='index.php' class='brand-logo'>FÜ Verwaltung</a>
 				<ul class='right hide-on-med-and-down'>
+					<li><a href='indexAdmin.php'>Plan verwalten</a></li>
+					<li><a href='createUser.php'>Benutzer hinzufügen</a></li>
 					<li><a href='add.php'>Daten hinzufügen</a></li>
 					<li><a href='teacher.php'>Lehrer Übersicht</a></li>
 					<li><a href='me.php?l=true'>Abmelden</a></li>
 				</ul>
 
 				<ul id='nav-mobile' class='side-nav'>
+					<li><a href='indexAdmin.php'>Plan verwalten</a></li>
+					<li><a href='createUser.php'>Benutzer hinzufügen</a></li>
 					<li><a href='add.php'>Daten hinzufügen</a></li>
 					<li><a href='teacher.php'>Lehrer Übersicht</a></li>
 					<li><a href='me.php?l=true'>Abmelden</a></li>
@@ -80,13 +84,13 @@
 						</div>
 						<div class="modal-footer">
 							<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
-							<a href="#modal1" class="modal-action waves-effect waves-green btn-flat">EDIT</a>
+							<a href="#modalAdd" class="modal-action waves-effect waves-green btn-flat">EDIT</a>
 						</div>
 					</div>
 	  
 	  
 				   <!-- Modal Unten FU Stunde-->
-					<div id="modal1" class="modal bottom-sheet">
+					<div id="modalAdd" class="modal bottom-sheet">
 						<form action="" method="post">
 							<div class="modal-content">
 								<h4>Hinzufügen</h4>
@@ -146,7 +150,7 @@
 							</form>
 						</div>
 					 </div>
-		  
+					<b>Ausgewählte Klasse: </b> <?php echo $_SESSION['klasse']; ?>
 					<table class="bordered responsive-table">
 						<thead>
 							<tr>

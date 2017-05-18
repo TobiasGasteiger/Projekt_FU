@@ -90,3 +90,8 @@ create table TeacherGotCredit(
 	Primary Key (TeacherGotCredit_ID)
 ) ENGINE = InnoDB;
 
+create table Admin(
+	Username varchar(255) not null,
+	Password varchar (255) not null,
+	Primary Key(Username)
+) ENGINE = InnoDB;

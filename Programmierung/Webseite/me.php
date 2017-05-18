@@ -49,23 +49,6 @@
 		<!--  Scripts-->
 		<script src="js/materialize.js"></script>
 		<script src="js/init.js"></script>
-		<script>  
-			$(document).ready(function(){
-				$('.modal').modal();
-			});
-		  
-			$(document).ready(function(){
-				$('.modal').modal();
-			});
-		  
-		  
-			$(document).ready(function() {
-				$('select').material_select();
-			});
-		  
-			$(document).ready(function(){
-				$('.tooltipped').tooltip({delay: 50});
-			});	  
-		</script>
+		<script src="js/includes/me/meJsCodeUnten.js"></script>  
 	</body>
 </html>

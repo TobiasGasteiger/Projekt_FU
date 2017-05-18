@@ -1,30 +1,4 @@
-<?php
-#### Einbinden der DB Verbindung ###
-include("db.php");
-
-
-if(isset($_POST["btnSetPassword"])){
-// Username und Passwort vom Formular
-$username=mysqli_real_escape_string($db,$_POST['username']); 
-$password=mysqli_real_escape_string($db,$_POST['password']);
-$password=md5($password); // Passwort mit MD5 verschlüsseln
-$sql = "UPDATE Teacher SET Password = '$password' WHERE Teacher_Name = '$username';";
-$result=mysqli_query($db,$sql);
-echo "<h3 style='color:green;'>Passwort erfolgreich gesetzt</h3>";
-}
-
-if(isset($_POST["btnCreateAdmin"])){
-// Username und Passwort vom Formular
-$username=mysqli_real_escape_string($db,$_POST['username']); 
-$password=mysqli_real_escape_string($db,$_POST['password']);
-$password=md5($password); // Passwort mit MD5 verschlüsseln
-$sql = "insert into Admin VALUES ('$username', '$password')";
-$result=mysqli_query($db,$sql);
-echo "<h3 style='color:green;'>Admin erfolgreich erstellt</h3>";
-}
-
-
-?>
+<?php include("php/includes/createUser/createUser.php"); ?>
 
 <!DOCTYPE html>
 <html lang="de">
@@ -40,17 +14,7 @@ echo "<h3 style='color:green;'>Admin erfolgreich erstellt</h3>";
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/liveSearch.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  
-    <script>		
-		$(document).ready(function(){
-			$('input.typeahead2').typeahead({
-				name: 'lehrerdel',
-				remote:'php/updateLehrer/search.php?key=%QUERY',
-				limit : 10
-			});
-		});
-    </script>
-	
+  <script src="js/includes/createUser/createUser.js"></script>	
 </head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
@@ -145,27 +109,6 @@ echo "<h3 style='color:green;'>Admin erfolgreich erstellt</h3>";
   <!--  Scripts-->
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
-  <script>  $(document).ready(function(){
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal').modal();
-  });
-  
-  $(document).ready(function(){
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal').modal();
-  });
-  
-  
-  $(document).ready(function() {
-    $('select').material_select();
-  });
-  
-    $(document).ready(function(){
-    $('.tooltipped').tooltip({delay: 50});
-  });
-      
-  
-  </script>
-
+  <script src="js/includes/createUser/createUserUnten.js"></script>
   </body>
 </html>

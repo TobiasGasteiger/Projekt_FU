@@ -11,28 +11,11 @@
 
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="js/typeahead.min.js"></script>
+		<script src="js/includes/indexAdmin/indexAdminJsCode.js"></script>
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 		<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 		<link href="css/liveSearch.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-		
-		<script>
-			$(document).ready(function(){
-				$('input.typeahead1').typeahead({
-					name: 'klassesearch',
-					remote:'php/updateKlassen/search.php?key=%QUERY',
-					limit : 10
-				});
-			});
-			
-			$(document).ready(function(){
-				$('input.typeahead2').typeahead({
-					name: 'lehrerdel',
-					remote:'php/updateLehrer/search.php?key=%QUERY',
-					limit : 10
-				});
-			});	
-		</script>
 	</head>
 	
 	<body>
@@ -194,41 +177,6 @@
 
 		<script src="js/materialize.js"></script>
 		<script src="js/init.js"></script>
-		<script>  
-			$(document).ready(function(){
-				$('.modal').modal();
-			});
-	  
-			$(document).ready(function(){
-				$('.modal').modal();
-			});
-	  
-	  
-			$(document).ready(function() {
-				$('select').material_select();
-			});
-	  
-			$(document).ready(function(){
-				$('.tooltipped').tooltip({delay: 50});
-			});
-		  
-			$('.datepicker').pickadate({
-				selectMonths: true,
-				selectYears: 15,
-				format: 'yyyy-mm-dd',
-				labelMonthNext: 'Nächster Monat',
-				labelMonthPrev: 'Letzter Monat',
-				labelMonthSelect: 'Monat auswählen',
-				labelYearSelect: 'Jahr auswählen',
-				monthsFull: [ 'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember' ],
-				monthsShort: [ 'Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez' ],
-				weekdaysFull: [ 'Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag' ],
-				weekdaysShort: [ 'Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam' ],
-				weekdaysLetter: [ 'S', 'M', 'D', 'M', 'D', 'F', 'S' ],
-				today: 'Heute',
-				clear: 'Löschen',
-				close: 'OK'
-			});
-		</script>
+		<script src="js/includes/indexAdmin/indexAdminUnten.js"></script>
 	</body>
 </html>

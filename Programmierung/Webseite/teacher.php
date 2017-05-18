@@ -1,17 +1,6 @@
 <?php
-	include("db.php");
 	session_start();
-
-	$name = $_SESSION['usernameAdmin'];
-
-	if($name == '')
-		header('Location: index.php');
-
-
-	if (isset($_GET['l'])) {
-		session_destroy();
-		header('Location: index.php');		
-	}
+	include("php/includes/teacher/teacherPhpCode.php");
 ?>
 
 
@@ -28,16 +17,7 @@
 		<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 		<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 		<link href="css/liveSearch.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  
-		<script>
-			$(document).ready(function(){
-				$('input.typeahead').typeahead({
-					name: 'typeahead',
-					remote:'php/searchLehrer/search.php?key=%QUERY',
-					limit : 10
-				});
-			});
-		</script>
+		<script src="js/includes/teacher/teacherJsCode.js"></script>
 	</head>
 	
 	<body>
@@ -116,21 +96,7 @@
 					<div class="card">
 						<div class="card-content">
 							<span class="card-title">
-								<?php
-									global $db;
-									if(isset($_POST['typeahead'])) {
-										$lehrer = $_POST['typeahead'];
-										echo "<center>";
-										$erg= $db->query("select * from Teacher where Teacher_Name LIKE '$lehrer'");
-										echo "<script>document.getElementById('lehrer').value</script>";
-										
-										while($zeile= $erg->fetch_object()){
-											echo "<pre>";
-											echo "<font face='Arial' size='6'> $zeile->Teacher_Name</font><br>";
-											echo "</pre>";		
-										}
-									}						
-								?>  
+								<?php include("php/includes/teacher/teacherMenu.php"); ?>  
 							</span>
 							<p>Eventuelle Informationen über den Lehrer</p>
 						</div>
@@ -139,47 +105,7 @@
 				
 				<center><h4>FÜ Stunden:</h4></center>
 				
-				<?php
-					global $db;
-					
-					if(isset($_POST['typeahead'])) {
-						$lehrer = $_POST['typeahead'];
-						$events= $db->query("select * from EventwithTeacher natural join Event natural join EventwithSchoolClass where Teacher_Name LIKE '$lehrer'");
-						
-						if(!$events)
-							die($db->error);
-						
-						while($zeile= $events->fetch_object()){
-							echo"
-							<div class='col s12 m6'>
-								<div class='card'>
-									<div class='card-content'>
-										<span class='card-title'>$zeile->Titel</span>
-										<p>am $zeile->Date in der Klasse $zeile->SchoolClass_Description.</p>
-									</div>
-								</div>
-							</div>";		
-						}			
-					}
-				
-					if(isset($_POST['typeahead'])) {
-						$lehrer = $_POST['typeahead'];
-						$credit= $db->query("select * from Teacher where Teacher_Name LIKE '$lehrer'");
-						$c = $credit->fetch_object();
-						echo "
-						<br><br><br><br><br><br><br><br><br><br><br><br><br>
-						<hr>
-						<div class='col s12'>
-							<div class='card'>
-								<div class='card-content'>
-									<span class='card-title'>
-										<center><b>Guthaben: $c->Credit</b></center>
-									</span>
-								</div>
-							</div>
-						</div>";
-					}		
-				?>	
+				<?php include("php/includes/teacher/teacherOverview.php"); ?>  
 			</div>
 		</div> 
 		 
@@ -195,23 +121,6 @@
 		<!--  Scripts-->
 		<script src="js/materialize.js"></script>
 		<script src="js/init.js"></script>
-		<script>  
-			$(document).ready(function(){
-				$('.modal').modal();
-			});
-	  
-			$(document).ready(function(){
-				$('.modal').modal();
-			});
-	  
-	  
-			$(document).ready(function() {
-				$('select').material_select();
-			});
-	  
-			$(document).ready(function(){
-				$('.tooltipped').tooltip({delay: 50});
-			});
-		</script>
+		<script src="js/includes/teacher/teacherJsCodeUnten.js"></script> 
 	</body>
 </html>

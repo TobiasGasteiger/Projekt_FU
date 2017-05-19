@@ -150,7 +150,7 @@
 							</form>
 						</div>
 					 </div>
-					<b>Ausgewählte Klasse: </b> <?php echo $_SESSION['klasse']; ?>
+					<b>Ausgewählte Klasse: </b> <?php if(isset($_SESSION['klasse'])){echo$_SESSION['klasse'];} ?>
 					<table class="bordered responsive-table">
 						<thead>
 							<tr>

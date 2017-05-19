@@ -9,7 +9,14 @@
 									die($db->error);
 										
 								if(!$timetableofClass)
-									die($db->error);				
+									die($db->error);	
+
+								$i = 0;
+								//Array erstellen wieviele Stunden pro Tag sind		
+								while($classEndHour = $timetableofClass->fetch_object()) {
+									$isSchool[$i] =  $classEndHour->endHour;
+									$i++;
+								}
 										
 								$mo = 0;
 								$di = 0;
@@ -88,9 +95,10 @@
 									}				
 								}
 								
-								$stunde = 1;	
-								
-								while($stunde <= 6) {
+								$stunde = 1;
+	
+								//Dynamische Tabelle wird generiert
+								while($stunde <= 9) {
 									echo"<tr>";			
 									
 									global $montag;
@@ -98,17 +106,19 @@
 									global $mittwoch;
 									global $donnerstag;
 									global $freitag;
-												
-									addStunde($montag, $stunde, getEventNumbers($montag));
-									addStunde($dienstag, $stunde, getEventNumbers($dienstag));
-									addStunde($mittwoch, $stunde, getEventNumbers($mittwoch));
-									addStunde($donnerstag, $stunde, getEventNumbers($donnerstag));
-									addStunde($freitag, $stunde, getEventNumbers($freitag));
+									global $isSchool;	
+
+									addStunde($montag, $stunde, getEventNumbers($montag), $isSchool[0]);
+									addStunde($dienstag, $stunde, getEventNumbers($dienstag), $isSchool[1]);
+									addStunde($mittwoch, $stunde, getEventNumbers($mittwoch), $isSchool[2]);
+									addStunde($donnerstag, $stunde, getEventNumbers($donnerstag), $isSchool[3]);
+									addStunde($freitag, $stunde, getEventNumbers($freitag), $isSchool[4]);
 									
 									echo"</tr>";
 									$stunde++;
 								}
 								
+								//Speichert jedes Event des dementsprechenden Tages in ein Array
 								function getEventNumbers($tag) {
 									$eventsProTag = count($tag);
 									$j = 0;
@@ -127,33 +137,49 @@
 									return $stundenFU;
 								}
 								
-								function addStunde($tag, $stunde, $eventsArray) {		
+								//Fügt jede einzelne Stunde ein, FÜ, AddFÜ oder nichts (wenn kein Unterricht ist)
+								function addStunde($tag, $stunde, $eventsArray, $isSchool) {		
 									$eventsProTag = count($tag);
+									
+									//Array Stunde hat einen Eintrag erstellen, zu Beginn jede Stunde 0, falls etwas eingetragen wird (FÜ oder AddFÜ) dann 1, 3 steht für keine Schule
+									$j = 0;
+										
+									while($j < 9){
+										$j++;
+										if($j <= $isSchool) {
+											$stundeHatEintrag[$j] = '0';
+										} else {
+											$stundeHatEintrag[$j] = '3';
+										}
+									}
+									
+									//Wenn an einem Tag Events sind
 									if($eventsProTag > 0) {
 										$i = 0;
-										$stundeHatEintrag = array(
-											'1' => '0',
-											'2' => '0',
-											'3' => '0',
-											'4' => '0',
-											'5' => '0',
-											'6' => '0',				
-										);
+										//solange an einem Tag Events sind
 										while($i < $eventsProTag) {
 											$array = $tag[$i];
 											$begHour = $array['Begin_Hour'];
 											$endHour = $array['End_Hour'];
+											//Es ist zu jetztigen Stunde FÜ
 											if($array['Begin_Hour'] <= $stunde && $array['End_Hour'] >= $stunde && in_array($stunde, $eventsArray) && $stundeHatEintrag[$stunde] == '0') {
 												$stundeHatEintrag[$stunde] = '1';
 												echo "<td><a href='#modalEvent$array[Event_ID]' id='$array[Event_ID]')><b>$array[Titel]&nbsp;</b>am $array[Date]</a></td>";
-											} else if(in_array($stunde, $eventsArray)){ } else if($stundeHatEintrag[$stunde] == '0'){
+											//Es ist zu jetztigen kein FÜ, aber Unterricht
+											} else if($stundeHatEintrag[$stunde] == '0' && $isSchool >= $stunde){
 												echo"<td>Leer</td>";
 												$stundeHatEintrag[$stunde] = '1';
 											}
 											$i++;
-										} 				
-									} else {
+										} 	
+									//Wenn einem Tag keine Events sind aber Schule ist
+									} else if($isSchool >= $stunde){
 										echo"<td>Leer</td>";
+										$stundeHatEintrag[$stunde] == '1';
+									//Wenn keine Schule ist
+									} else if($stundeHatEintrag[$stunde] = '3'){
+										echo"<td><a href='#modalAdd'>&nbsp;</a></td>";
+										$stundeHatEintrag[$stunde] == '1';
 									}
 								}
 								

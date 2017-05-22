@@ -1,6 +1,11 @@
 <?php
 	include("db.php");
 	
+	if(isset($_SESSION['usernameAdmin']) || isset($_SESSION['usernameTeacher'])){
+		session_destroy();
+	}
+	
+	
 	if(isset($_POST["btn_login"])){
 		
 		if(isset($_POST['usernameTeacher'])){

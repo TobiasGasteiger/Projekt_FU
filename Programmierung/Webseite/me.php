@@ -35,9 +35,9 @@
 				<?php include("php/includes/me/meTeacherOverview.php"); ?>	
 			</div> 
 		</div> 
-		</div>
+
 		
-		<footer class="page-footer white">
+		<footer class="page-footer">
 			<div class="footer-copyright light-blue lighten-1">
 				<div class="container">
 					© 2017 Klasse 5BT (2016/17)

@@ -40,7 +40,7 @@
 			</div>
 		</nav>
 		
-		<div class="section no-pad-bot" id="index-banner">
+		<div class="section no-pad-bot" id="index-banner" style="background-color: #cfd8dc;">
 			<div class="container">
 			  <!-- Modal Login -->
 				<div id="loginModal" class="modal">
@@ -191,13 +191,12 @@
 					</div>
 				</div>
 			</div> 
-		</div>
          
-		<footer class="page-footer white">
+		<footer class="page-footer">
 			<div class="footer-copyright light-blue lighten-1">
 				<div class="container">
 					© 2017 Klasse 5BT (2016/17)
-					<a class="grey-text text-lighten-4 right" onclick="Materialize.toast('Sie besitzen die Version 0.1', 4000)">Version</a>
+					<a class="grey-text text-lighten-4 right" onclick="Materialize.toast('Sie besitzen die Version v1.0', 4000)">Version</a>
 				</div>
 			</div>
 		</footer>

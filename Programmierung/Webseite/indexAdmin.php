@@ -142,35 +142,51 @@
 						</form>
 					</div>
 	 
-					<div class="row">
-						<div class="input-field col s6">
-							<form action="" method="post">
-								<input type="text" name="klassesearch" class="typeahead1 tt-query" autocomplete="off" spellcheck="false" placeholder="Klasse suchen">
-								<button type="submit" name="klassname" class='btn btn-large waves-effect indigo'>Los!</button>
-							</form>
+					<div class="col s12 m12">
+						<div class="card">
+							<div class="card-content">
+								<div class="row">
+									<div class="input-field col s6">
+										<form action="" method="post">
+											<input type="text" name="klassesearch" class="typeahead1 tt-query" autocomplete="off" spellcheck="false" placeholder="Klasse suchen">
+											<button type="submit" name="klassname" class='btn btn-large waves-effect indigo'>Los!</button>
+										</form>
+									</div>
+									
+									<div class="input-field col s6">
+										<br>
+										<b>Ausgewählte Klasse: </b> <?php if(isset($_SESSION['klasse'])){ echo $_SESSION['klasse'];}else{ echo "Keine Klasse ausgewählt";} ?>
+									</div>
+								</div>
+							</div>
 						</div>
-					 </div>
-					<b>Ausgewählte Klasse: </b> <?php if(isset($_SESSION['klasse'])){echo$_SESSION['klasse'];} ?>
-					<table class="bordered responsive-table">
-						<thead>
-							<tr>
-								<td>Montag</td>
-								<td>Dienstag</td>
-								<td>Mittwoch</td>
-								<td>Donnerstag</td>
-								<td>Freitag</td>
-							</tr>
-						</thead>
+					</div>
+					
+					<div class="col s12 m12">
+						<div class="card">
+							<div class="card-content">
+								<table class="bordered responsive-table">
+									<thead>
+										<tr>
+											<td>Montag</td>
+											<td>Dienstag</td>
+											<td>Mittwoch</td>
+											<td>Donnerstag</td>
+											<td>Freitag</td>
+										</tr>
+									</thead>
 
-						<tbody>
-							<?php include("php/includes/indexAdmin/indexAdminDynamicTable.php"); ?>
-						</tbody>
-					</table>
-			</div>
-		</div>
-		<br><br>
-	  
-		<footer class="page-footer white">
+									<tbody>
+										<tr>
+											<?php include("php/includes/indexAdmin/indexAdminDynamicTable.php"); ?>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+		<footer class="page-footer">
 			<div class="footer-copyright light-blue lighten-1">
 				<div class="container">
 					© 2017 Klasse 5BT (2016/17)

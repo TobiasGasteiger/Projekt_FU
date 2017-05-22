@@ -19,7 +19,7 @@
 	
 	<body>
 		<?php include("php/includes/me/meMenu.php"); ?>
-
+		<div class="section no-pad-bot" id="index-banner" style="background-color: #cfd8dc;">
 		<div class="container"> 
 			<div class="row">
 				<div class="col s12">
@@ -35,15 +35,17 @@
 				<?php include("php/includes/me/meTeacherOverview.php"); ?>	
 			</div> 
 		</div> 
-			 
+		</div>
+		
 		<footer class="page-footer white">
 			<div class="footer-copyright light-blue lighten-1">
 				<div class="container">
 					© 2017 Klasse 5BT (2016/17)
-					<a class="grey-text text-lighten-4 right" onclick="Materialize.toast('Sie besitzen die Version 0.1', 4000)">Version</a>
+					<a class="grey-text text-lighten-4 right" onclick="Materialize.toast('Sie besitzen die Version v1.0', 4000)">Version</a>
 				</div>
 			</div>
 		</footer>
+		
 
 		<!--  Scripts-->
 		<script src="js/materialize.js"></script>

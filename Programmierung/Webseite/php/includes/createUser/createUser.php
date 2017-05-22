@@ -1,6 +1,18 @@
 <?php
 #### Einbinden der DB Verbindung ###
 include("db.php");
+session_start();
+
+$name = $_SESSION['usernameAdmin'];
+
+if($name == '')
+	header('Location: index.php');
+
+
+if (isset($_GET['l'])) {
+	session_destroy();
+	header('Location: index.php');	
+}
 
 if(isset($_POST["btnSetPassword"])){
 // Username und Passwort vom Formular

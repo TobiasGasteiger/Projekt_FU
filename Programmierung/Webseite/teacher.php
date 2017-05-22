@@ -42,7 +42,7 @@
 			</div>
 		</nav>
 	  
-	  
+		<div class="section no-pad-bot" id="index-banner" style="background-color: #cfd8dc;">	  
 		<div class="container">
 			<!-- Modal login -->
 			<div id="loginModal" class="modal">
@@ -85,13 +85,17 @@
 			</div>
 	  
 			<div class="row">
-				<div class="col s12">
+				<div class="col s12 m12">
+				<div class="card">
+				<div class="card-content">
 					<div class="input-field">
 						<form action="" method="post">
 							<h5>Lehrer suchen: </h5><input type="text" name="typeahead" class="typeahead tt-query" autocomplete="off" spellcheck="false" placeholder="Namen eingeben">
 							<button type="submit" class='btn btn-large waves-effect indigo'>Los!</button>
 						</form>
 					</div>
+				</div>
+				</div>
 				</div>
 			</div>
 	  
@@ -112,11 +116,11 @@
 			</div>
 		</div> 
 		 
-		<footer class="page-footer white">
+		<footer class="page-footer">
 			<div class="footer-copyright light-blue lighten-1">
 				<div class="container">
 					© 2017 Klasse 5BT (2016/17)
-					<a class="grey-text text-lighten-4 right" onclick="Materialize.toast('Sie besitzen die Version 0.1', 4000)">Version</a>
+					<a class="grey-text text-lighten-4 right" onclick="Materialize.toast('Sie besitzen die Version v1.0', 4000)">Version</a>
 				</div>
 			</div>
 		</footer>

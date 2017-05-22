@@ -19,6 +19,29 @@
 	</head>
 	
 	<body>
+		<script>
+			$(document).ready(function() {
+				$('#addLehrer').click(function() {
+					var lehrer = $('#lehrer').val();
+					if(lehrer != ""){
+						if ( $('ul li:contains(' + lehrer + ')').length ) {
+							//Do not add Lehrer if already exists
+						} else {
+							var li = "<li>" + lehrer + "<a href='#' class='clearitem'> X</a><input type='hidden' name='lehrer[]' value='" + lehrer + "' /></li>";
+							$('#ul').append(li);
+						}	
+					}
+				})
+			});
+			
+			$(document).ready(function() {
+				$('a.clearitem').on('click', function(){
+					alert("k");
+					$(this).parent().remove();
+				});
+			});
+		</script>
+		
 		<nav class='light-blue lighten-1' role='navigation'>
 			<div class='nav-wrapper container'><a id='logo-container' href='index.php' class='brand-logo'>FÜ Verwaltung</a>
 				<ul class='right hide-on-med-and-down'>
@@ -126,11 +149,9 @@
 									</div>	
 
 									<div class="input-field col s3">
-										<input type="text" name="lehrername" class="typeahead2 tt-query" autocomplete="off" spellcheck="false" placeholder="Lehrer suchen" required>
-									</div>
-								
-									<div class="input-field col s3">
-										<button type="submit" name="btnLehrerHinzufuegen" class='btn btn-large waves-effect indigo'>Los!</button>
+										<input type="text" id="lehrer" class="typeahead2 tt-query" autocomplete="off" spellcheck="false" placeholder="Lehrer suchen"></input>
+										<input type="button" id="addLehrer"  value="Lehrer hinzufügen" class='btn waves-effect indigo'></input>
+										<ul id="ul"><ul>
 									</div>
 								</div>
 							</div>

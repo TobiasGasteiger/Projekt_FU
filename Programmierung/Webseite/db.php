@@ -1,5 +1,5 @@
 <?php
-	$db_server = 'localhost';
+	$db_server = 'linuxserver';
 	$db_username = 'ststeraf';
 	$db_password = 'mypass';
 	$db_database = 'projekt_fu';

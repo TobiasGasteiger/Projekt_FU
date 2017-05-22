@@ -40,7 +40,7 @@
 			</div>
 		</nav>
 		
-		<div class="section no-pad-bot" id="index-banner">
+		<div class="section no-pad-bot" id="index-banner" style="background-color: #cfd8dc;">
 			<div class="container">
 				<!-- Modal login -->
 				<div id="loginModal" class="modal">

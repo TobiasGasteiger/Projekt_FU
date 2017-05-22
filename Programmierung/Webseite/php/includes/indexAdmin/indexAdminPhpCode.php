@@ -21,10 +21,8 @@
 		$zusatzpersonen = $_POST["zusatzpersonen"];
 		$anfangsstunde = $_POST["anfangsstunde"];
 		$endstunde = $_POST["endstunde"];
-		//$lehrer = $_POST["lehrer"];
-		$lehrer = array();
-		$lehrer[] = "Abrim Elda";
-		$lehrer[] = "Alper Thomas";
+		$lehrer = $_POST["lehrer"];
+
 
 		$sql= $db->prepare("insert into Event(Titel,Description,Date,Person,Begin_Hour,End_Hour) VALUES(?,?,?,?,?,?)");
 		$sql->bind_param("ssssii", $titel, $beschreibung, $datum, $zusatzpersonen, $anfangsstunde, $endstunde);

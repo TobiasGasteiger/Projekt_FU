@@ -129,7 +129,7 @@
 		while($j < $eventsProTag) {
 			$array = $tag[$j];
 			$insertHour = 1;
-			while($insertHour <= 6) {
+			while($insertHour <= 9) {
 				if($insertHour >= $array['Begin_Hour'] && $insertHour <= $array['End_Hour']) {
 					$stundenFU[] = $insertHour;
 				}	
@@ -157,7 +157,7 @@
 		}
 		
 		//Wenn an einem Tag Events sind
-		if($eventsProTag > 0) {
+		if($eventsProTag > 0 && $isSchool >= $stunde) {
 			$i = 0;
 			//solange an einem Tag Events sind
 			while($i < $eventsProTag) {
@@ -170,19 +170,19 @@
 					echo "<td><a href='#modalEvent$array[Event_ID]' id='$array[Event_ID]')><b>$array[Titel]&nbsp;</b>am $array[Date]</a></td>";
 				//Es ist zu jetztigen kein FÜ, aber Unterricht
 				} else if($stundeHatEintrag[$stunde] == '0' && $isSchool >= $stunde){
-					echo"<td><a href='#modalAdd'>Add FÜ</a></td>";
+					echo"<td><a href='#modalAdd'>Add FÜÜÜÜ</a></td>";
 					$stundeHatEintrag[$stunde] = '1';
 				}
 				$i++;
 			} 	
 		//Wenn einem Tag keine Events sind aber Schule ist
-		} else if($isSchool >= $stunde){
-			echo"<td><a href='#modalAdd'>Add FÜ</a></td>";
-			$stundeHatEintrag[$stunde] == '1';
+		} else if($isSchool >= $stunde && $stundeHatEintrag[$stunde] == '0'){
+			echo"<td><a href='#modalAdd'>Add FÜÖÖÖ</a></td>";
+			$stundeHatEintrag[$stunde] = '1';
 		//Wenn keine Schule ist
-		} else if($stundeHatEintrag[$stunde] = '3'){
+		} else if($isSchool < $stunde){
 			echo"<td><a href='#modalAdd'>&nbsp;</a></td>";
-			$stundeHatEintrag[$stunde] == '1';
+			$stundeHatEintrag[$stunde] = '1';
 		}
 	}
 	

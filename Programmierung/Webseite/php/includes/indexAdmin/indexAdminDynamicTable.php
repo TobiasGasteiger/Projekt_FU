@@ -170,14 +170,14 @@
 					echo "<td><a href='#modalEvent$array[Event_ID]' id='$array[Event_ID]')><b>$array[Titel]&nbsp;</b>am $array[Date]</a></td>";
 				//Es ist zu jetztigen kein FÜ, aber Unterricht
 				} else if($stundeHatEintrag[$stunde] == '0' && $isSchool >= $stunde){
-					echo"<td><a href='#modalAdd'>Add FÜÜÜÜ</a></td>";
+					echo"<td><a href='#modalAdd'>Add FÜ</a></td>";
 					$stundeHatEintrag[$stunde] = '1';
 				}
 				$i++;
 			} 	
 		//Wenn einem Tag keine Events sind aber Schule ist
 		} else if($isSchool >= $stunde && $stundeHatEintrag[$stunde] == '0'){
-			echo"<td><a href='#modalAdd'>Add FÜÖÖÖ</a></td>";
+			echo"<td><a href='#modalAdd'>Add FÜ</a></td>";
 			$stundeHatEintrag[$stunde] = '1';
 		//Wenn keine Schule ist
 		} else if($isSchool < $stunde){

@@ -212,7 +212,6 @@
 									</div>
 										<div class='modal-footer'>
 											<a href='#!' class='modal-action modal-close waves-effect waves-green btn-flat'>OK</a>
-											<a href='#modalEditEvent$row->Event_ID' class='modal-action waves-effect waves-green btn-flat'>EDIT</a>
 										</div>
 									</div>";
 									

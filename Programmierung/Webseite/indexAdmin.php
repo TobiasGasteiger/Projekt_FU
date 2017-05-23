@@ -158,7 +158,7 @@
 							
 							<div class="modal-footer">	
 								<input type="submit" class="modal-action waves-effect waves-light btn-flat" name="btnHinzufuegen" value="OK"></input>
-								<input type="submit" class="modal-action waves-effect waves-light btn-flat modal-close" name="btnHinzufuegen" value="Abbrechen"></input>
+								<button class='modal-action waves-effect waves-light btn-flat modal-close'>Abbrechen</button>
 							</div>
 						</form>
 					</div>

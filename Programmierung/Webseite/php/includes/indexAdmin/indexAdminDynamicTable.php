@@ -237,8 +237,8 @@
 			<form action='' method='post'>
 				<div class='modal-content'>
 					<h4>Hinzufügen</h4>
-					<div class='row'>
-						<div class='input-field col s6'>";
+						<div class='row'>
+							<div class='input-field col s6'>";
 							
 			//TITEL auffüllen
 			if ($row->Titel != null || $row->Titel != ""){
@@ -296,35 +296,39 @@
 			}else{
 				$modal .= "<input id='first_name' type='text' name='endstunde' class='validate'>";
 			}
+
+			$modal .= "<label for='first_name'>Endstunde *</label></div>";
 			
-			$modal .= "	<label for='first_name'>EndStunde *</label></div>
-						<div class='input-field col s6'>";
 			
-			//Lehrer auffüllen
-			if ($row->End_Hour != null || $row->End_Hour != ""){
-				$modal .= "<input type='text' id='lehrer' class='typeahead2 tt-query' autocomplete='off' spellcheck='false'></input>";
-			}else{
-				$modal .= "<input type='text' id='lehrer' class='typeahead2 tt-query' autocomplete='off' spellcheck='false' placeholder='Lehrer suchen'></input>";
-			}		
-		
 			//Lehrer einfügen
 			$modal .= "<p>Lehrer:";
 			while($rowLehrer = $lehrer->fetch_object()) {
 				$modal .= " $rowLehrer->Teacher_Name,";
 			}
 			
+			//Lehrer auffüllen
+			if ($row->End_Hour != null || $row->End_Hour != ""){
+				$modal .= "<input type='text' id='lehrer' class='typeahead2 tt-query' autocomplete='off' spellcheck='false'></input>";
+			}else{
+				$modal .= "<input type='text' id='lehrer' class='typeahead2 tt-query' autocomplete='off' spellcheck='false' placeholder='Lehrer suchen'></input>";
+			}	
+			
 			
 			$modal .= 
-			"			</div>
+			"
+			</div>
+				</div>	
+					<div class='modal-footer'>
+						<button type='submit' class='modal-action waves-effect waves-light btn-flat' name='btnChange'>OK</button>
+						<button class='modal-action waves-effect waves-light btn-flat modal-close'>Abbrechen</button>
 					</div>
-				</div>
-					<div class='modal-footer'>	
-						<button type='submit' class='modal-action waves-effect waves-light btn-flat' name='btnChange'>Änderung speichern</button>
-						<input type='submit' class='modal-action waves-effect waves-light btn-flat modal-close' value='Abbrechen'></input>
-					</div>
-				</form>
-			</div>";
+					</form>
+				</div>";
+					
+			
 		echo $modal;
+		
+	}	
 		
 		if(isset($_POST["btnChange"])){
 			global $db;		
@@ -335,19 +339,9 @@
 			$zusatzpersonen = $_POST["zusatzpersonen"];
 			$anfangsstunde = $_POST["anfangsstunde"];
 			$endstunde = $_POST["endstunde"];
-			
-			$getTeacherOfEvent = $db->query("select * from EventwithTeacher where Event_ID = $row->Event_ID;");
-			$lehrer = array();
-			$i=0;
-			
-			while($zeile = $getTeacherOfEvent->fetch_object()) {
-				$lehrer[$i] =  $zeile->Teacher_Name;
-				$i++;
-			}
+			$lehrer = $_POST["lehrer"];
 			
 			//Eintrag aus der Datenbank löschen
-			$sqlDelete = $db->query("delete from EventwithSchoolClass where Event_ID = $row->Event_ID");
-			$sqlDelete = $db->query("delete from EventwithTeacher where Event_ID = $row->Event_ID");
 			$sqlDelete = $db->query("delete from Event where Event_ID = $row->Event_ID");
 
 			$sql= $db->prepare("insert into Event(Titel,Description,Date,Person,Begin_Hour,End_Hour) VALUES(?,?,?,?,?,?)");
@@ -377,10 +371,6 @@
 				}
 			}else{
 				echo "<script type='text/javascript'>alert(Fehler - Daten konnten nicht hinzugefügt werden');</script>";
-			}
+			}		
 		}
-	}
-	
-	
-	
 ?>
